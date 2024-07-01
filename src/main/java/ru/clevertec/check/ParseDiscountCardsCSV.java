@@ -38,7 +38,7 @@ public class ParseDiscountCardsCSV {
         }
     }
 
-    public List<DiscountCard> getCard(String filePath) throws IOException {
+    public static List<DiscountCard> getCard(String filePath) throws IOException {
         List<DiscountCard> discountCards = new ArrayList<>();
         BufferedReader reader = new BufferedReader(new FileReader(filePath));
         String line;

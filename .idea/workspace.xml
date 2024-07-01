@@ -4,9 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2bc89813-8f4b-43d6-b181-6fdedd25abfe" name="Changes" comment="Начал выводить итоговую цену&#10;Добавил класс Скидочных карт&#10;Добавил отдельный класс для их парсинга&#10;и еще парочку фиксов">
-      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ru/clevertec/check/ParseProductsCSV.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/clevertec/check/ParseProductsCSV.java" afterDir="false" />
+    <list default="true" id="2bc89813-8f4b-43d6-b181-6fdedd25abfe" name="Changes" comment="Исправлен недочет из-за которого количество на складе товара не учитывалось">
+      <change afterPath="$PROJECT_DIR$/src/main/java/ru/clevertec/check/OrderWriter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/clevertec/check/CheckRunner.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/clevertec/check/CheckRunner.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/clevertec/check/ParseDiscountCardsCSV.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/clevertec/check/ParseDiscountCardsCSV.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/clevertec/check/Product.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/clevertec/check/Product.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/clevertec/check/TotalPriceCalc.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/clevertec/check/OrderProcessor.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -95,7 +99,7 @@
       <workItem from="1719861173920" duration="706000" />
       <workItem from="1719861983872" duration="657000" />
       <workItem from="1719864556105" duration="49000" />
-      <workItem from="1719864646010" duration="3095000" />
+      <workItem from="1719864646010" duration="4244000" />
     </task>
     <task id="LOCAL-00001" summary="Начал выводить итоговую цену&#10;Добавил класс Скидочных карт&#10;Добавил отдельный класс для их парсинга&#10;и еще парочку фиксов">
       <option name="closed" value="true" />
@@ -105,7 +109,15 @@
       <option name="project" value="LOCAL" />
       <updated>1719867592579</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Исправлен недочет из-за которого количество на складе товара не учитывалось">
+      <option name="closed" value="true" />
+      <created>1719867850216</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1719867850216</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -114,6 +126,7 @@
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <MESSAGE value="Начал выводить итоговую цену&#10;Добавил класс Скидочных карт&#10;Добавил отдельный класс для их парсинга&#10;и еще парочку фиксов" />
-    <option name="LAST_COMMIT_MESSAGE" value="Начал выводить итоговую цену&#10;Добавил класс Скидочных карт&#10;Добавил отдельный класс для их парсинга&#10;и еще парочку фиксов" />
+    <MESSAGE value="Исправлен недочет из-за которого количество на складе товара не учитывалось" />
+    <option name="LAST_COMMIT_MESSAGE" value="Исправлен недочет из-за которого количество на складе товара не учитывалось" />
   </component>
 </project>

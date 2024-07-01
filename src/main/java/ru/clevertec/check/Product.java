@@ -78,6 +78,9 @@ public class Product {
     public int getQuantityInStock() {
         return quantityInStock;
     }
+    public void setQuantityInStock(int quantityInStock) {
+        this.quantityInStock = quantityInStock;
+    }
 
     @Override
     public boolean equals(Object o) {
