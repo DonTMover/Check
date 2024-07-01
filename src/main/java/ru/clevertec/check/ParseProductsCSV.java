@@ -19,11 +19,12 @@ public class ParseProductsCSV {
             int id = Integer.parseInt(tokens[0]);
             String name = tokens[1];
             double price = Double.parseDouble(tokens[2]);
-            int quantityInStock = Integer.parseInt(tokens[3]);  // Assuming quantity is also included
+            int quantityInStock = Integer.parseInt(tokens[3]);
             boolean discount = Boolean.parseBoolean(tokens[4]);
 
             // Create Product using builder (assuming quantityInStock and wholesaleProduct are not used)
             return new Product.Builder(id)
+                    .quantityInStock(quantityInStock)
                     .name(name)
                     .price(price)
                     .discount(discount)
