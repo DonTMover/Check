@@ -19,7 +19,7 @@ public class Product {
     }
 
     public static class Builder {
-        private final int id;
+        private int id;
         private String name;
         private double price;
         private boolean discount;
