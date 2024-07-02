@@ -16,7 +16,7 @@ public class Order {
         this.quantity = quantity;
         this.price = price;
         this.name = name;
-        this.orderItems = orderItems; // Use defensive copy for orderItems
+        this.orderItems = orderItems;
     }
 
     public static class Builder {
@@ -24,7 +24,7 @@ public class Order {
         private int quantity;
         private double price;
         private String name;
-        private final List<OrderItem> orderItems = new ArrayList<>(); // Use final for immutability
+        private final List<OrderItem> orderItems = new ArrayList<>();
 
         public Builder productID(int productID) {
             this.productID = productID;
