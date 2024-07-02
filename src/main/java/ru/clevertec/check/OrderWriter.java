@@ -2,8 +2,10 @@ package ru.clevertec.check;
 
 import java.io.FileWriter;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -12,80 +14,51 @@ import java.util.Map;
 public class OrderWriter {
     private static final String CSV_FILE_NAME = "result.csv";
 
-    private static void printTheReceipt() {
 
-    }
-
-    public static void writeOrderToFile(HashMap<Integer, Integer> purchases, List<Product> products, List<DiscountCard> discountCards, String discountCard) throws IOException {
-        int discountCardPercentage = 0;
-        for (DiscountCard card : discountCards) {
-            if (card.getCardNumber().equals(discountCard)) {
-                discountCardPercentage = card.getDiscount();
-            } else if (discountCard != null) {
-                discountCardPercentage = 2;
-            }
-        }
-        //Дата и ее формат
-        LocalDateTime now = LocalDateTime.now();
-        String date = now.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-        String time = now.format(DateTimeFormatter.ofPattern("HH:mm:ss"));
-
-        double totalPrice = 0;
+    public static void checkBalanceAndWriteOrder(BigDecimal totalPrice, DiscountCard discountCard) throws IOException {
+        // Calculate total discount (assuming no discount is applied initially)
         double totalDiscount = 0;
-        for (Map.Entry<Integer, Integer> entry : purchases.entrySet()) {
-            int productId = entry.getKey();
-            int quantity = entry.getValue();
 
-            // Find the corresponding product
-            Product product = products.stream()
-                    .filter(p -> p.getId() == productId)
-                    .findFirst()
-                    .orElse(null); // Handle missing product
-
-            if (product != null) {
-                double price = product.getPrice();
-                double discount = applyWholesaleDiscount(product, quantity, discountCardPercentage);
-                double total = price * quantity;
-                totalPrice += total;
-                totalDiscount += product.isWholesaleProduct() ? total * discount / 100 : 0;
-            }
+        // Check balance and write order to file
+        if (CheckRunner.getBalanceDebitCard().compareTo(totalPrice) < 0) {
+            System.err.println("Error: Insufficient balance on debit card.");
+            return;
         }
-
 
         try (FileWriter csvWriter = new FileWriter(CSV_FILE_NAME)) {
             // Write headers
             csvWriter.write("Date;Time\n");
+            LocalDateTime now = LocalDateTime.now();
+            String date = now.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+            String time = now.format(DateTimeFormatter.ofPattern("HH:mm:ss"));
             csvWriter.write(date + ";" + time + "\n");
 
-            // Write product data headers
-            csvWriter.write("QTY;DESCRIPTION;PRICE;DISCOUNT;TOTAL\n");
-
-            // Write product data
-            for (Product product : products) {
-                double discount = product.isWholesaleProduct() ? product.getPrice() * discountCardPercentage / 100 : 0;
-                double total = product.getPrice() * product.getQuantityInStock();
-                csvWriter.write(product.getQuantityInStock() + ";" + product.getName() + ";" +
-                        product.getPrice() + "; " + discount + "; " + total + "\n");
-            }
+            // Write total price
+            csvWriter.write("TOTAL PRICE;" + totalPrice + "\n");
 
             // Write discount card information
             csvWriter.write("DISCOUNT CARD;DISCOUNT PERCENTAGE\n");
-            csvWriter.write(discountCard + ";" + discountCardPercentage + "%\n");
+            if (discountCard != null) {
+                csvWriter.write(discountCard.getCardNumber() + ";" + discountCard.getDiscount() + "%\n");
+            } else {
+                csvWriter.write("None;0%\n");
+            }
 
-            // Write total values
-            csvWriter.write("TOTAL PRICE;TOTAL DISCOUNT;TOTAL WITH DISCOUNT\n");
-            csvWriter.write(calculateTotalPrice(products) + "; " + calculateTotalDiscount(products, discountCardPercentage) + "; " + calculateTotalWithDiscount((calculateTotalPrice(products)),calculateTotalDiscount(products,discountCardPercentage)) + "\n");
+            // Write total with discount (if applicable)
+            if (totalDiscount > 0) {
+                csvWriter.write("TOTAL WITH DISCOUNT;" + (totalPrice.min(BigDecimal.valueOf(totalDiscount))) + "\n");
+            }
         }
-
     }
+
 
     private static double calculateTotalPrice(List<Product> products) {
-    double totalPrice = 0;
-    for (Product product : products) {
-        totalPrice += product.getPrice() * product.getQuantityInStock();
+        double totalPrice = 0;
+        for (Product product : products) {
+            totalPrice += product.getPrice() * product.getQuantityInStock();
+        }
+        return totalPrice;
     }
-    return totalPrice;
-}
 
 
     private static double calculateTotalDiscount(List<Product> products, int discountPercentage) {
@@ -108,4 +81,60 @@ public class OrderWriter {
         }
     }
 
+    protected static BigDecimal calculateTotalCostWithDiscounts(List<Product> products, Map<Integer, Integer> purchases, String discountCardId) throws Exception {
+
+        List<OrderItem> orderItems = new ArrayList<>();
+        for (Map.Entry<Integer, Integer> entry : purchases.entrySet()) {
+            Product product = products.get(entry.getKey());
+            if (product == null) {
+                throw new Exception("Product not found: ID " + entry.getKey()); // More specific error message
+            }
+            orderItems.add(new OrderItem.Builder()
+                    .setQuantity(entry.getValue())  // Use entry.getValue() for quantity
+                    .setPrice(product.getPrice())
+                    .setName(product.getName())
+                    .setProductID(entry.getKey())
+                    .build());
+        }
+
+        for (OrderItem orderItem : orderItems) {
+            if (orderItem.getQuantity() > 5) {
+                orderItem.applyDiscount(BigDecimal.valueOf(0.1));
+            } else if (discountCardId != null) { // Use else if for exclusive discount application
+                BigDecimal discount = BigDecimal.valueOf(DiscountCard.findDiscountById(discountCardId).getDiscount())
+                        .divide(BigDecimal.valueOf(100));
+                orderItem.applyDiscount(discount);
+            }
+        }
+
+        Order order = new Order.Builder().addItems(orderItems).build();
+        return order.getTotalPrice();
+    }
+
+    private static BigDecimal calculateTotalCostWithoutDiscounts(HashMap<Integer, Integer> purchases, List<Product> products) throws Exception {
+        List<OrderItem> orderItems = new ArrayList<>();
+        for (Integer i : purchases.keySet()) {
+            if (products.get(i) != null) {
+                orderItems.add(new OrderItem.Builder()
+                        .setQuantity(purchases.get(i))
+                        .setPrice(products.get(i).getPrice())
+                        .setName(products.get(i).getName())
+                        .setProductID(i)
+                        .build());
+            } else {
+                throw new Exception("Product not found");
+            }
+        }
+        Order order = new Order.Builder().addItems(orderItems).build();
+        return order.getTotalPrice();
+    }
+
+//    private static void applyWholesaleDiscounts(Order order) {
+//        for (OrderItem item : order.getOrderItems()) {
+//            Product product = products.get(item.getProductID());
+//            if (product.isWholesaleProduct() && item.getQuantity() >= 5) {
+//                item.applyDiscount(new BigDecimal(0.1)); // 10% wholesale discount
+//            }
+//        }
+//    }
 }

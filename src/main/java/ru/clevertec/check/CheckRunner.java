@@ -7,6 +7,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static ru.clevertec.check.OrderWriter.calculateTotalCostWithDiscounts;
+import static ru.clevertec.check.OrderWriter.checkBalanceAndWriteOrder;
+
+
 public class CheckRunner {
     protected static final String PRODUCTS_FILE = "./src/main/resources/products.csv";
     protected static final String DISCOUNT_CARDS_FILE = "./src/main/resources/discountCards.csv";
@@ -14,10 +18,10 @@ public class CheckRunner {
 
     private static List<Product> products;
     private static Map<Integer, Integer> purchases;
-    private static Integer discountCardId;
+    private static String discountCardId;
     private static BigDecimal balanceDebitCard;
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws Exception {
         // Parse products CSV file
         products = ParseProductsCSV.parseProductsCSV(PRODUCTS_FILE);
 
@@ -29,19 +33,21 @@ public class CheckRunner {
             System.err.println("Error: No purchase data found.");
             return;
         }
-
+        for (Product product : products) {
+            System.out.println(product.toString());
+        }
         // Calculate total cost with discounts
-        Order order = calculateTotalCostWithDiscounts();
+        BigDecimal totalCostWithDiscounts = calculateTotalCostWithDiscounts(products, purchases,discountCardId);
 
         // Check balance and write order to file
-        checkBalanceAndWriteOrder(order);
+        checkBalanceAndWriteOrder(totalCostWithDiscounts,DiscountCard.findDiscountById(String.valueOf(discountCardId)));
     }
 
     private static void parseArguments(String[] args) {
         purchases = new HashMap<>();
         for (String arg : args) {
             if (arg.startsWith("discountCard=")) {
-                discountCardId = Integer.parseInt(arg.split("=")[1]);
+                discountCardId = arg.split("=")[1];
             } else if (arg.startsWith("balanceDebitCard=")) {
                 balanceDebitCard = new BigDecimal(arg.split("=")[1]);
             } else {
@@ -57,51 +63,11 @@ public class CheckRunner {
         }
     }
 
-    private Order calculateTotalCostWithDiscounts(HashMap<Integer, Integer> purchases) throws Exception {
-        List<OrderItem> orderItems = new ArrayList<>();
-        for (Integer i : purchases.keySet()) {
-            if(products.get(i)!=null){
-                orderItems.add(OrderItem.Builder);
-            }else{
-                throw new Exception("Product not found");
-            }
-
-        }
+    public static BigDecimal getBalanceDebitCard() {
+        return balanceDebitCard;
     }
 
-    private static void applyWholesaleDiscounts(Order order) {
-        for (OrderItem item : order.getOrderItems()) {
-            Product product = products.get(item.getProductID());
-            if (product.isWholesaleProduct() && item.getQuantity() >= 5) {
-                item.applyDiscount(new BigDecimal(0.1)); // 10% wholesale discount
-            }
-        }
-    }
-
-    private static DiscountCard findDiscountById(String discountCardName) throws IOException {
-        for (DiscountCard discountCard : ParseDiscountCardsCSV.getCard(DISCOUNT_CARDS_FILE)) {
-            if(discountCard.getCardNumber().equals(discountCardName)){
-                return discountCard;
-            }
-        }
-        // Implement logic to find discount by ID
-        // (You might need to load discount cards from a file or database)
-        return null; // Replace this with actual implementation
-    }
-
-    private static void checkBalanceAndWriteOrder(Order order) {
-        BigDecimal totalCost = order.getTotalCost();
-
-        if (balanceDebitCard == null || balanceDebitCard.compareTo(totalCost) < 0) {
-            System.err.println("Error: Insufficient balance on debit card.");
-            return;
-        }
-
-        try {
-            OrderWriter.writeOrderToFile(RESULT_FILE, order, findDiscountById(discountCardId));
-            System.out.println("Purchase successful. Total cost: " + totalCost);
-        } catch (IOException e) {
-            System.err.println("Error writing order to file: " + e.getMessage());
-        }
+    public static List<Product> getProducts() {
+        return products;
     }
 }

@@ -1,5 +1,7 @@
 package ru.clevertec.check;
 
+import java.io.IOException;
+
 public class DiscountCard {
     private int id;
     private String cardNumber;
@@ -49,5 +51,15 @@ public class DiscountCard {
             }
             return new DiscountCard(id, cardNumber, discount);
         }
+
+
     }
+    protected static DiscountCard findDiscountById(String discountCardName) throws IOException {
+            for (DiscountCard discountCard : ParseDiscountCardsCSV.getCard(CheckRunner.DISCOUNT_CARDS_FILE)) {
+                if (discountCard.getCardNumber().equals(discountCardName)) {
+                    return discountCard;
+                }
+            }
+            return null;
+        }
 }

@@ -1,5 +1,6 @@
 package ru.clevertec.check;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,6 +27,23 @@ public class Order {
         private String name;
         private final List<OrderItem> orderItems = new ArrayList<>();
 
+
+        public Builder orderItems(List<OrderItem> orderItems) {
+            // Create a defensive copy to avoid modifying the original list
+            this.orderItems.addAll(new ArrayList<>(orderItems));
+            return this;
+        }
+
+        public Builder addItem(OrderItem orderItem) {
+            this.orderItems.add(orderItem);
+            return this;
+        }
+
+        public Builder addItems(List<OrderItem> orderItem) {
+            this.orderItems.addAll(orderItem);
+            return this;
+        }
+
         public Builder productID(int productID) {
             this.productID = productID;
             return this;
@@ -46,19 +64,8 @@ public class Order {
             return this;
         }
 
-        public Builder orderItems(List<OrderItem> orderItems) {
-            // Create a defensive copy to avoid modifying the original list
-            this.orderItems.addAll(new ArrayList<>(orderItems));
-            return this;
-        }
-
-        public Builder addItem(OrderItem orderItem) {
-            this.orderItems.add(orderItem);
-            return this;
-        }
-
         public Order build() {
-            return new Order(productID, quantity, price, name, new ArrayList<>(orderItems)); // Defensive copy for orderItems
+            return new Order(productID, quantity, price, name, orderItems);
         }
     }
 
@@ -90,6 +97,26 @@ public class Order {
     public void setOrderItems(List<OrderItem> orderItems) {
         throw new UnsupportedOperationException("Order items cannot be modified after creation.");
     }
+
+    public BigDecimal getTotalPrice() {
+        BigDecimal totalPrice = BigDecimal.ZERO;
+        for (OrderItem orderItem : orderItems) {
+            totalPrice = totalPrice.add(BigDecimal.valueOf(orderItem.getPrice())
+                    .multiply(BigDecimal.valueOf(orderItem.getQuantity())));
+        }
+        return totalPrice;
+    }
+
+
+    public double getTotalDiscount() {
+        double totalDiscount = 0;
+        for (OrderItem orderItem : orderItems) {
+            double discount = orderItem.getDiscountPercentage().doubleValue(); // Convert to double (potential precision loss)
+            totalDiscount += orderItem.getPrice() * orderItem.getQuantity() * discount;
+        }
+        return totalDiscount;
+    }
+
 
     @Override
     public String toString() {

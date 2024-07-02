@@ -23,11 +23,11 @@ public class ParseProductsCSV {
             boolean discount = Boolean.parseBoolean(tokens[4]);
 
             // Create Product using builder (assuming quantityInStock and wholesaleProduct are not used)
-            return new Product.Builder(id)
-                    .quantityInStock(quantityInStock)
-                    .name(name)
-                    .price(price)
-                    .discount(discount)
+            return new Product.Builder()
+                    .setQuantityInStock(quantityInStock)
+                    .setName(name)
+                    .setPrice(price)
+                    .setDiscount(discount)
                     .build();
         } catch (NumberFormatException e) {
             System.err.println("Error parsing line: " + line + " - " + e.getMessage());
@@ -39,6 +39,10 @@ public class ParseProductsCSV {
         List<Product> products = new ArrayList<>();
         BufferedReader reader = new BufferedReader(new FileReader(filePath));
         String line;
+
+        // Skip the first line (header)
+        reader.readLine();
+
         while ((line = reader.readLine()) != null) {
             // Process each line
             Product product = parseProductLine(line);
@@ -49,5 +53,6 @@ public class ParseProductsCSV {
         reader.close();
         return products;
     }
+
 
 }
