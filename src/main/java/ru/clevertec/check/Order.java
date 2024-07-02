@@ -120,7 +120,7 @@ public class Order {
                 discount = 0.1; // Apply 10% wholesale discount
             } else {
                 // Apply regular discount (if any)
-                discount = orderItem.getDiscountPercentage().doubleValue();
+                discount = orderItem.getDiscountPercentage(CheckRunner.getDiscountCardId()).doubleValue();
             }
 
             // Calculate and accumulate discount for the item

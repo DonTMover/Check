@@ -70,4 +70,10 @@ public class CheckRunner {
     public static List<Product> getProducts() {
         return products;
     }
+    public static List<DiscountCard> getDiscountCards() {
+        return discountCards;
+    }
+    public static String getDiscountCardId() {
+        return discountCardId;
+    }
 }
