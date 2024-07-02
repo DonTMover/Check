@@ -81,13 +81,15 @@ public class OrderWriter {
         }
     }
 
-    protected static BigDecimal calculateTotalCostWithDiscounts(List<Product> products, Map<Integer, Integer> purchases, String discountCardId) throws Exception {
+    protected static BigDecimal calculateTotalCostWithDiscounts(List<Product> products,
+                                                                Map<Integer, Integer> purchases,
+                                                                String discountCardId) throws Exception {
 
         List<OrderItem> orderItems = new ArrayList<>();
         for (Map.Entry<Integer, Integer> entry : purchases.entrySet()) {
             Product product = products.get(entry.getKey());
             if (product == null) {
-                throw new Exception("Product not found: ID " + entry.getKey()); // More specific error message
+                throw new IllegalArgumentException("Product not found: ID " + entry.getKey()); // More specific error message
             }
             orderItems.add(new OrderItem.Builder()
                     .setQuantity(entry.getValue())  // Use entry.getValue() for quantity
@@ -111,7 +113,8 @@ public class OrderWriter {
         return order.getTotalPrice();
     }
 
-    private static BigDecimal calculateTotalCostWithoutDiscounts(HashMap<Integer, Integer> purchases, List<Product> products) throws Exception {
+    private static BigDecimal calculateTotalCostWithoutDiscounts(HashMap<Integer, Integer> purchases,
+                                                                 List<Product> products) throws Exception {
         List<OrderItem> orderItems = new ArrayList<>();
         for (Integer i : purchases.keySet()) {
             if (products.get(i) != null) {
@@ -122,7 +125,7 @@ public class OrderWriter {
                         .setProductID(i)
                         .build());
             } else {
-                throw new Exception("Product not found");
+                throw new IllegalArgumentException("Product not found");
             }
         }
         Order order = new Order.Builder().addItems(orderItems).build();

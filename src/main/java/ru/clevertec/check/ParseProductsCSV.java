@@ -1,6 +1,7 @@
 package ru.clevertec.check;
 
 import java.io.*;
+import java.math.BigDecimal;
 import java.util.*;
 
 public class ParseProductsCSV {
@@ -9,24 +10,27 @@ public class ParseProductsCSV {
         String[] tokens = line.split(",");
 
         // Validate data length (should match number of product fields)
-        if (tokens.length != 6) {
-            System.err.println("Invalid line format: " + line);
-            return null;
-        }
+//        if (tokens.length != 6) {
+//            System.err.println("Invalid line format: " + line);
+//            return null;
+//        }
 
-        // Parse values
         try {
+            boolean discount = false;
             int id = Integer.parseInt(tokens[0]);
             String name = tokens[1];
-            double price = Double.parseDouble(tokens[2]);
+            BigDecimal price = new BigDecimal(tokens[2]);  // Use BigDecimal for price
             int quantityInStock = Integer.parseInt(tokens[3]);
-            boolean discount = Boolean.parseBoolean(tokens[4]);
+            if(tokens[4].equals("+")){
+                discount = true;
+            }
 
-            // Create Product using builder (assuming quantityInStock and wholesaleProduct are not used)
+            // Create Product using builder
             return new Product.Builder()
+                    .setId(id)
                     .setQuantityInStock(quantityInStock)
                     .setName(name)
-                    .setPrice(price)
+                    .setPrice(Double.parseDouble(String.valueOf(price)))
                     .setDiscount(discount)
                     .build();
         } catch (NumberFormatException e) {
@@ -34,6 +38,7 @@ public class ParseProductsCSV {
             return null;
         }
     }
+
 
     public static List<Product> parseProductsCSV(String filePath) throws IOException {
         List<Product> products = new ArrayList<>();

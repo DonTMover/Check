@@ -16,7 +16,7 @@ public class OrderProcessor {
             amount += price;
         }
         if (discountCardNumber != null) {
-            List<DiscountCard> discountCards = ParseDiscountCardsCSV.getCard(CheckRunner.DISCOUNT_CARDS_FILE);
+            List<DiscountCard> discountCards = ParseDiscountCardsCSV.parseDiscountCardsCSV(CheckRunner.DISCOUNT_CARDS_FILE);
             for (DiscountCard discountCard : discountCards) {
                 if (discountCardNumber.equals(discountCard.getCardNumber())) {
                     discount = discountCard.getDiscount();

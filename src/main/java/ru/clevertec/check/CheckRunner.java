@@ -1,8 +1,6 @@
 package ru.clevertec.check;
 
-import java.io.IOException;
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,6 +15,7 @@ public class CheckRunner {
     protected static final String RESULT_FILE = "./result.csv";
 
     private static List<Product> products;
+    private static List<DiscountCard> discountCards;
     private static Map<Integer, Integer> purchases;
     private static String discountCardId;
     private static BigDecimal balanceDebitCard;
@@ -24,6 +23,7 @@ public class CheckRunner {
     public static void main(String[] args) throws Exception {
         // Parse products CSV file
         products = ParseProductsCSV.parseProductsCSV(PRODUCTS_FILE);
+        discountCards = ParseDiscountCardsCSV.parseDiscountCardsCSV(DISCOUNT_CARDS_FILE);
 
         // Process command-line arguments
         parseArguments(args);
@@ -33,9 +33,9 @@ public class CheckRunner {
             System.err.println("Error: No purchase data found.");
             return;
         }
-        for (Product product : products) {
-            System.out.println(product.toString());
-        }
+//        for (DiscountCard discountCard : discountCards) {
+//            System.out.println(discountCard.toString());
+//        }
         // Calculate total cost with discounts
         BigDecimal totalCostWithDiscounts = calculateTotalCostWithDiscounts(products, purchases,discountCardId);
 
