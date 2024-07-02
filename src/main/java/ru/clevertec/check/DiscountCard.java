@@ -1,5 +1,7 @@
 package ru.clevertec.check;
 
+import java.io.IOException;
+
 public class DiscountCard {
     private int id;
     private String cardNumber;
@@ -44,10 +46,30 @@ public class DiscountCard {
         }
 
         public DiscountCard build() {
-            if (id < 0 || discount != 0 || discount <= 0 || cardNumber != null) {
-                throw new IllegalArgumentException("Invalid discountCard parameters");
-            }
+//            if (id < 0 || discount != 0 || discount <= 0 || cardNumber != null) {
+//                throw new IllegalArgumentException("Invalid discountCard parameters");
+//            }
             return new DiscountCard(id, cardNumber, discount);
         }
+
+
+    }
+
+    protected static DiscountCard findDiscountById(String discountCardName) throws IOException {
+        for (DiscountCard discountCard : ParseDiscountCardsCSV.parseDiscountCardsCSV(CheckRunner.DISCOUNT_CARDS_FILE)) {
+            if (discountCard.getCardNumber().equals(discountCardName)) {
+                return discountCard;
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public String toString() {
+        return "DiscountCard{" +
+                "id=" + id +
+                ", cardNumber='" + cardNumber + '\'' +
+                ", discount=" + discount +
+                '}';
     }
 }

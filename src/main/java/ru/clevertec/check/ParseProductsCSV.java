@@ -1,6 +1,7 @@
 package ru.clevertec.check;
 
 import java.io.*;
+import java.math.BigDecimal;
 import java.util.*;
 
 public class ParseProductsCSV {
@@ -9,24 +10,28 @@ public class ParseProductsCSV {
         String[] tokens = line.split(",");
 
         // Validate data length (should match number of product fields)
-        if (tokens.length != 6) {
-            System.err.println("Invalid line format: " + line);
-            return null;
-        }
+//        if (tokens.length != 6) {
+//            System.err.println("Invalid line format: " + line);
+//            return null;
+//        }
 
-        // Parse values
         try {
+            boolean discount = false;
             int id = Integer.parseInt(tokens[0]);
             String name = tokens[1];
-            double price = Double.parseDouble(tokens[2]);
-            int quantityInStock = Integer.parseInt(tokens[3]);  // Assuming quantity is also included
-            boolean discount = Boolean.parseBoolean(tokens[4]);
+            BigDecimal price = new BigDecimal(tokens[2]);  // Use BigDecimal for price
+            int quantityInStock = Integer.parseInt(tokens[3]);
+            if(tokens[4].equals("+")){
+                discount = true;
+            }
 
-            // Create Product using builder (assuming quantityInStock and wholesaleProduct are not used)
-            return new Product.Builder(id)
-                    .name(name)
-                    .price(price)
-                    .discount(discount)
+            // Create Product using builder
+            return new Product.Builder()
+                    .setId(id)
+                    .setQuantityInStock(quantityInStock)
+                    .setName(name)
+                    .setPrice(Double.parseDouble(String.valueOf(price)))
+                    .setDiscount(discount)
                     .build();
         } catch (NumberFormatException e) {
             System.err.println("Error parsing line: " + line + " - " + e.getMessage());
@@ -34,10 +39,15 @@ public class ParseProductsCSV {
         }
     }
 
+
     public static List<Product> parseProductsCSV(String filePath) throws IOException {
         List<Product> products = new ArrayList<>();
         BufferedReader reader = new BufferedReader(new FileReader(filePath));
         String line;
+
+        // Skip the first line (header)
+        reader.readLine();
+
         while ((line = reader.readLine()) != null) {
             // Process each line
             Product product = parseProductLine(line);
@@ -48,5 +58,6 @@ public class ParseProductsCSV {
         reader.close();
         return products;
     }
+
 
 }

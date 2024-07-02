@@ -25,36 +25,31 @@ public class Product {
         private boolean discount;
         private int quantityInStock;
 
-        public Builder(int id) {
+        public Builder setId(int id) {
             this.id = id;
+            return this;
         }
-
-        public Builder name(String name) {
+        public Builder setName(String name) {
             this.name = name;
             return this;
         }
-
-        public Builder price(double price) {
+        public Builder setPrice(double price) {
             this.price = price;
             return this;
         }
-
-        public Builder discount(boolean discount) {
+        public Builder setDiscount(boolean discount) {
             this.discount = discount;
             return this;
         }
-        public Builder quantityInStock(int quantityInStock) {
+        public Builder setQuantityInStock(int quantityInStock) {
             this.quantityInStock = quantityInStock;
             return this;
         }
-
         public Product build() {
-            if (name == null || price <= 0 ) {
-                throw new IllegalArgumentException("Invalid product parameters");
-            }
-            return new Product(id, name, price, discount,quantityInStock);
+            return new Product(id, name, price, discount, quantityInStock);
         }
     }
+
     public int getId() {
         return id;
     }
@@ -67,7 +62,7 @@ public class Product {
         return price;
     }
 
-    public boolean isDiscount() {
+    public boolean isWholesaleProduct() {
         return discount;
     }
 
@@ -77,6 +72,10 @@ public class Product {
 
     public int getQuantityInStock() {
         return quantityInStock;
+    }
+
+    public void setQuantityInStock(int quantityInStock) {
+        this.quantityInStock = quantityInStock;
     }
 
     @Override
@@ -103,5 +102,13 @@ public class Product {
                 ", discount=" + discount +
                 '}';
     }
+    public static Product getProductByID(int id) {
+        for (Product product : CheckRunner.getProducts()) {
+            if (product.getId() == id) {
+                return product;
+            }
 
+        }
+        throw new Error("No product with id " + id + " found");
+    }
 }

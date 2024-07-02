@@ -1,11 +1,9 @@
 package ru.clevertec.check;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class ParseDiscountCardsCSV {
@@ -14,10 +12,10 @@ public class ParseDiscountCardsCSV {
         String[] tokens = line.split(",");
 
         // Validate data length (should match number of product fields)
-        if (tokens.length != 4) {
-            System.err.println("Invalid line format: " + line);
-            return null;
-        }
+//        if (tokens.length != 4) {
+//            System.err.println("Invalid line format: " + line);
+//            return null;
+//        }
 
         // Parse values
         try {
@@ -38,10 +36,14 @@ public class ParseDiscountCardsCSV {
         }
     }
 
-    public List<DiscountCard> getCard(String filePath) throws IOException {
+    public static List<DiscountCard> parseDiscountCardsCSV(String filePath) throws IOException {
         List<DiscountCard> discountCards = new ArrayList<>();
         BufferedReader reader = new BufferedReader(new FileReader(filePath));
         String line;
+
+        // Skip the first line (header)
+        reader.readLine();
+
         while ((line = reader.readLine()) != null) {
             // Process each line
             DiscountCard discountCard = parseProductLine(line);
