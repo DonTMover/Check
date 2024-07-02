@@ -137,6 +137,7 @@ public class OrderWriter {
         Order order = new Order.Builder().addItems(orderItems).build();
         return order.getTotalPrice();
     }
+    //TODO Написать такой-же вывод, но уже в консоль, так-же исправить баг из-за которого не выводятся продукты
 
 //    private static void applyWholesaleDiscounts(Order order) {
 //        for (OrderItem item : order.getOrderItems()) {
