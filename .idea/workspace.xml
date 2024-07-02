@@ -4,11 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2bc89813-8f4b-43d6-b181-6fdedd25abfe" name="Changes" comment="чтото не работает">
+    <list default="true" id="2bc89813-8f4b-43d6-b181-6fdedd25abfe" name="Changes" comment="Работает кое-как!">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ru/clevertec/check/CheckRunner.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/clevertec/check/CheckRunner.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ru/clevertec/check/Order.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/clevertec/check/Order.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ru/clevertec/check/OrderItem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/clevertec/check/OrderItem.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/result.csv" beforeDir="false" afterPath="$PROJECT_DIR$/result.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/clevertec/check/OrderWriter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/clevertec/check/OrderWriter.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -92,30 +91,30 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
-    &quot;Application.CheckRunner.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.Build Check.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.Check [:CheckRunner.main()].executor&quot;: &quot;Debug&quot;,
-    &quot;Gradle.Check [build].executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;entry-core&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;onboarding.tips.debug.path&quot;: &quot;C:/Users/DonTMover/IdeaProjects/Check/src/main/java/ru/clevertec/Main.java&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;project.propCompiler&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_ADD_EXTERNAL_FILES": "true",
+    "Application.CheckRunner.executor": "Debug",
+    "Gradle.Build Check.executor": "Run",
+    "Gradle.Check [:CheckRunner.main()].executor": "Debug",
+    "Gradle.Check [build].executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "git-widget-placeholder": "entry-core",
+    "kotlin-language-version-configured": "true",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "onboarding.tips.debug.path": "C:/Users/DonTMover/IdeaProjects/Check/src/main/java/ru/clevertec/Main.java",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "project.propCompiler",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RunManager" selected="Application.CheckRunner">
     <configuration name="CheckRunner" type="Application" factoryName="Application" nameIsGenerated="true">
       <option name="ALTERNATIVE_JRE_PATH" value="corretto-21" />
@@ -185,7 +184,7 @@
       <workItem from="1719919772161" duration="4287000" />
       <workItem from="1719924217359" duration="4199000" />
       <workItem from="1719929045381" duration="4659000" />
-      <workItem from="1719934658214" duration="3529000" />
+      <workItem from="1719934658214" duration="4154000" />
     </task>
     <task id="LOCAL-00001" summary="Начал выводить итоговую цену&#10;Добавил класс Скидочных карт&#10;Добавил отдельный класс для их парсинга&#10;и еще парочку фиксов">
       <option name="closed" value="true" />
@@ -259,7 +258,15 @@
       <option name="project" value="LOCAL" />
       <updated>1719936156061</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="Работает кое-как!">
+      <option name="closed" value="true" />
+      <created>1719941132440</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1719941132440</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -276,7 +283,8 @@
     <MESSAGE value="Все сломано, хочется плакать x2" />
     <MESSAGE value="Парсеры починил" />
     <MESSAGE value="чтото не работает" />
-    <option name="LAST_COMMIT_MESSAGE" value="чтото не работает" />
+    <MESSAGE value="Работает кое-как!" />
+    <option name="LAST_COMMIT_MESSAGE" value="Работает кое-как!" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -299,6 +307,25 @@
           <url>file://$PROJECT_DIR$/src/main/java/ru/clevertec/check/ParseProductsCSV.java</url>
           <line>8</line>
           <option name="timeStamp" value="7" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/ru/clevertec/check/OrderWriter.java</url>
+          <line>51</line>
+          <option name="timeStamp" value="8" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/ru/clevertec/check/CheckRunner.java</url>
+          <line>42</line>
+          <option name="timeStamp" value="9" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-method">
+          <url>file://$PROJECT_DIR$/src/main/java/ru/clevertec/check/OrderWriter.java</url>
+          <line>19</line>
+          <properties class="ru.clevertec.check.OrderWriter" method="checkBalanceAndWriteOrder">
+            <option name="EMULATED" value="true" />
+            <option name="WATCH_EXIT" value="false" />
+          </properties>
+          <option name="timeStamp" value="11" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
