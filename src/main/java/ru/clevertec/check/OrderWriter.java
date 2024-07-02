@@ -51,7 +51,7 @@ public class OrderWriter {
 
         // Write total price information
         csvWriter.write("\nTOTAL PRICE;" + totalPrice.setScale(2, RoundingMode.HALF_EVEN) + "$; TOTAL DISCOUNT;" +
-                BigDecimal.valueOf(totalDiscount).setScale(2, RoundingMode.HALF_EVEN) + "$; TOTAL WITH DISCOUNT;" +
+                (totalPrice.setScale(2,RoundingMode.HALF_DOWN).min(BigDecimal.valueOf(totalDiscount).setScale(2, RoundingMode.HALF_EVEN))) + "$; TOTAL WITH DISCOUNT;" +
                 (totalPrice.min(BigDecimal.valueOf(totalDiscount))).setScale(2, RoundingMode.HALF_EVEN) + "$\n");
     }
 }
