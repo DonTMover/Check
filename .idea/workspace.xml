@@ -4,13 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2bc89813-8f4b-43d6-b181-6fdedd25abfe" name="Changes" comment="Исправлен недочет из-за которого количество на складе товара не учитывалось">
-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/clevertec/check/OrderWriter.java" afterDir="false" />
+    <list default="true" id="2bc89813-8f4b-43d6-b181-6fdedd25abfe" name="Changes" comment="Кое-как, более менее реализована функция подсчета денег, требуемых к оплате">
+      <change afterPath="$PROJECT_DIR$/src/main/java/ru/clevertec/check/Order.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/ru/clevertec/check/CheckRunner.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/clevertec/check/CheckRunner.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/clevertec/check/OrderWriter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/clevertec/check/OrderWriter.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/ru/clevertec/check/ParseDiscountCardsCSV.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/clevertec/check/ParseDiscountCardsCSV.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/ru/clevertec/check/Product.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/clevertec/check/Product.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ru/clevertec/check/TotalPriceCalc.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/clevertec/check/OrderProcessor.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -63,6 +64,7 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "ASKED_ADD_EXTERNAL_FILES": "true",
+    "Gradle.Check [:CheckRunner.main()].executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "git-widget-placeholder": "entry-core",
     "kotlin-language-version-configured": "true",
@@ -72,13 +74,23 @@
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
     "onboarding.tips.debug.path": "C:/Users/DonTMover/IdeaProjects/Check/src/main/java/ru/clevertec/Main.java",
-    "project.structure.last.edited": "Project",
+    "project.structure.last.edited": "Global Libraries",
     "project.structure.proportion": "0.0",
-    "project.structure.side.proportion": "0.0",
-    "settings.editor.selected.configurable": "discord-application",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "reference.settingsdialog.project.gradle",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
+  <component name="RunManager">
+    <configuration name="CheckRunner" type="Application" factoryName="Application" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="ru.clevertec.check.CheckRunner" />
+      <module name="Check.main" />
+      <option name="PROGRAM_PARAMETERS" value="3-1 2-5 5-1 discountCard=1111 balanceDebitCard=100" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
@@ -99,7 +111,10 @@
       <workItem from="1719861173920" duration="706000" />
       <workItem from="1719861983872" duration="657000" />
       <workItem from="1719864556105" duration="49000" />
-      <workItem from="1719864646010" duration="4244000" />
+      <workItem from="1719864646010" duration="6906000" />
+      <workItem from="1719918292065" duration="632000" />
+      <workItem from="1719919092881" duration="665000" />
+      <workItem from="1719919772161" duration="1310000" />
     </task>
     <task id="LOCAL-00001" summary="Начал выводить итоговую цену&#10;Добавил класс Скидочных карт&#10;Добавил отдельный класс для их парсинга&#10;и еще парочку фиксов">
       <option name="closed" value="true" />
@@ -117,7 +132,15 @@
       <option name="project" value="LOCAL" />
       <updated>1719867850216</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Кое-как, более менее реализована функция подсчета денег, требуемых к оплате">
+      <option name="closed" value="true" />
+      <created>1719868986047</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1719868986047</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -127,6 +150,7 @@
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <MESSAGE value="Начал выводить итоговую цену&#10;Добавил класс Скидочных карт&#10;Добавил отдельный класс для их парсинга&#10;и еще парочку фиксов" />
     <MESSAGE value="Исправлен недочет из-за которого количество на складе товара не учитывалось" />
-    <option name="LAST_COMMIT_MESSAGE" value="Исправлен недочет из-за которого количество на складе товара не учитывалось" />
+    <MESSAGE value="Кое-как, более менее реализована функция подсчета денег, требуемых к оплате" />
+    <option name="LAST_COMMIT_MESSAGE" value="Кое-как, более менее реализована функция подсчета денег, требуемых к оплате" />
   </component>
 </project>

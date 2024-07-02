@@ -11,20 +11,25 @@ public class CheckRunner {
 
     private static Integer discountCard;
     private static Integer balanceDebitCard;
-    private static HashMap<Integer,Integer> purchases;
+    private static HashMap<Integer, Integer> purchases;
+
     public static void main(String[] args) throws IOException {
         for (String arg : args) {
-            if(arg.startsWith("discountCard=")){
+            if (arg.startsWith("discountCard=")) {
                 String[] str = arg.split("=");
                 discountCard = Integer.parseInt(str[1]);
             }
-            if(arg.startsWith("balanceDebitCard=")){
+            if (arg.startsWith("balanceDebitCard=")) {
                 String[] str = arg.split("=");
                 balanceDebitCard = Integer.parseInt(str[1]);
-            }
-            else {
+            } else {
                 String[] str = arg.split("-");
-                purchases.put(Integer.parseInt(str[0]),Integer.parseInt(str[1]));
+                if (purchases != null) {
+                    purchases.put(Integer.parseInt(str[0]), Integer.parseInt(str[1]));
+                } else {
+                    throw new Error("No purchase data found");
+                }
+
             }
             List<Product> products = ParseProductsCSV.parseProductsCSV(PRODUCTS_FILE);
 

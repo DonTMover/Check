@@ -43,18 +43,20 @@ public class Product {
             this.discount = discount;
             return this;
         }
+
         public Builder quantityInStock(int quantityInStock) {
             this.quantityInStock = quantityInStock;
             return this;
         }
 
         public Product build() {
-            if (name == null || price <= 0 ) {
+            if (name == null || price <= 0) {
                 throw new IllegalArgumentException("Invalid product parameters");
             }
-            return new Product(id, name, price, discount,quantityInStock);
+            return new Product(id, name, price, discount, quantityInStock);
         }
     }
+
     public int getId() {
         return id;
     }
@@ -67,7 +69,7 @@ public class Product {
         return price;
     }
 
-    public boolean isDiscount() {
+    public boolean isWholesaleProduct() {
         return discount;
     }
 
@@ -78,6 +80,7 @@ public class Product {
     public int getQuantityInStock() {
         return quantityInStock;
     }
+
     public void setQuantityInStock(int quantityInStock) {
         this.quantityInStock = quantityInStock;
     }
