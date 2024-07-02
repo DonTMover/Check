@@ -31,6 +31,7 @@ public class CheckRunner {
                 }
 
             }
+            
             List<Product> products = ParseProductsCSV.parseProductsCSV(PRODUCTS_FILE);
 
         }
