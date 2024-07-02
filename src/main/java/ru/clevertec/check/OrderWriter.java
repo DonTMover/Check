@@ -3,6 +3,7 @@ package ru.clevertec.check;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -13,43 +14,48 @@ import java.util.Map;
 
 public class OrderWriter {
     private static final String CSV_FILE_NAME = "result.csv";
+    private static final List<OrderItem> orderItems = new ArrayList<>();
 
 
-    public static void checkBalanceAndWriteOrder(BigDecimal totalPrice, DiscountCard discountCard) throws IOException {
-        // Calculate total discount (assuming no discount is applied initially)
-        double totalDiscount = 0;
+    public static void checkBalanceAndWriteOrder(BigDecimal totalPrice, DiscountCard discountCard)
+            throws IOException {
+    // Calculate total discount (assuming logic for calculating discount is implemented elsewhere)
+    double totalDiscount = new Order.Builder().addItems(orderItems).build().getTotalDiscount(); // Replace with your discount logic
 
-        // Check balance and write order to file
-        if (CheckRunner.getBalanceDebitCard().compareTo(totalPrice) < 0) {
-            System.err.println("Error: Insufficient balance on debit card.");
-            return;
-        }
-
-        try (FileWriter csvWriter = new FileWriter(CSV_FILE_NAME)) {
-            // Write headers
-            csvWriter.write("Date;Time\n");
-            LocalDateTime now = LocalDateTime.now();
-            String date = now.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-            String time = now.format(DateTimeFormatter.ofPattern("HH:mm:ss"));
-            csvWriter.write(date + ";" + time + "\n");
-
-            // Write total price
-            csvWriter.write("TOTAL PRICE;" + totalPrice + "\n");
-
-            // Write discount card information
-            csvWriter.write("DISCOUNT CARD;DISCOUNT PERCENTAGE\n");
-            if (discountCard != null) {
-                csvWriter.write(discountCard.getCardNumber() + ";" + discountCard.getDiscount() + "%\n");
-            } else {
-                csvWriter.write("None;0%\n");
-            }
-
-            // Write total with discount (if applicable)
-            if (totalDiscount > 0) {
-                csvWriter.write("TOTAL WITH DISCOUNT;" + (totalPrice.min(BigDecimal.valueOf(totalDiscount))) + "\n");
-            }
-        }
+    // Check balance and write order to file
+    if (CheckRunner.getBalanceDebitCard().compareTo(totalPrice) < 0) {
+        System.err.println("Error: Insufficient balance on debit card.");
+        return;
     }
+
+    try (FileWriter csvWriter = new FileWriter(CSV_FILE_NAME)) {
+        // Write headers
+        csvWriter.write("Date;Time\n");
+        LocalDateTime now = LocalDateTime.now();
+        String date = now.format(DateTimeFormatter.ofPattern("yyyy-DD-MM")); // Use DD-MM format
+        String time = now.format(DateTimeFormatter.ofPattern("HH:mm:ss"));
+        csvWriter.write(date + ";" + time + "\n\n");  // Add an extra empty line for clarity
+
+        // Write order details
+        csvWriter.write("QTY; DESCRIPTION; PRICE; DISCOUNT; TOTAL\n");
+
+        // ... (loop through order items to write each line)
+
+        // Write discount card information
+        csvWriter.write("\nDISCOUNT CARD;DISCOUNT PERCENTAGE\n");
+        if (discountCard != null) {
+            csvWriter.write(discountCard.getCardNumber() + ";" + discountCard.getDiscount() + "%\n");
+        } else {
+            csvWriter.write("None;0%\n");
+        }
+
+        // Write total price information
+        csvWriter.write("\nTOTAL PRICE;" + totalPrice.setScale(2, RoundingMode.HALF_EVEN) + "$; TOTAL DISCOUNT;" +
+                BigDecimal.valueOf(totalDiscount).setScale(2, RoundingMode.HALF_EVEN) + "$; TOTAL WITH DISCOUNT;" +
+                (totalPrice.min(BigDecimal.valueOf(totalDiscount))).setScale(2, RoundingMode.HALF_EVEN) + "$\n");
+    }
+}
+
 
 
     private static double calculateTotalPrice(List<Product> products) {
@@ -85,7 +91,7 @@ public class OrderWriter {
                                                                 Map<Integer, Integer> purchases,
                                                                 String discountCardId) throws Exception {
 
-        List<OrderItem> orderItems = new ArrayList<>();
+        //List<OrderItem> orderItems = new ArrayList<>();
         for (Map.Entry<Integer, Integer> entry : purchases.entrySet()) {
             Product product = products.get(entry.getKey());
             if (product == null) {
@@ -114,8 +120,8 @@ public class OrderWriter {
     }
 
     private static BigDecimal calculateTotalCostWithoutDiscounts(HashMap<Integer, Integer> purchases,
-                                                                 List<Product> products) throws Exception {
-        List<OrderItem> orderItems = new ArrayList<>();
+                                                                 List<Product> products) {
+        //List<OrderItem> orderItems = new ArrayList<>();
         for (Integer i : purchases.keySet()) {
             if (products.get(i) != null) {
                 orderItems.add(new OrderItem.Builder()

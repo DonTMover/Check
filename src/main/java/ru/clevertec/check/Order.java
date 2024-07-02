@@ -110,10 +110,23 @@ public class Order {
 
     public double getTotalDiscount() {
         double totalDiscount = 0;
+
+        // Iterate through order items
         for (OrderItem orderItem : orderItems) {
-            double discount = orderItem.getDiscountPercentage().doubleValue(); // Convert to double (potential precision loss)
+            double discount = 0; // Initialize discount for each item
+
+            // Check if item is wholesale and has quantity >= 5
+            if (orderItem.isWhosale() && orderItem.getQuantity() >= 5) {
+                discount = 0.1; // Apply 10% wholesale discount
+            } else {
+                // Apply regular discount (if any)
+                discount = orderItem.getDiscountPercentage().doubleValue();
+            }
+
+            // Calculate and accumulate discount for the item
             totalDiscount += orderItem.getPrice() * orderItem.getQuantity() * discount;
         }
+
         return totalDiscount;
     }
 
