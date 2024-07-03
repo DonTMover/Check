@@ -39,7 +39,14 @@ public class OrderWriter {
         // Write order details
         csvWriter.write("QTY; DESCRIPTION; PRICE; DISCOUNT; TOTAL\n");
 
-        // ... (loop through order items to write each line)
+        for (OrderItem orderItem : orderItems) {
+            double discount = orderItem.getPrice() * calculateDiscount(orderItem,discountCard);
+            double total = calculateTotalWithoutDiscount(orderItem,CheckRunner.getProducts());
+            csvWriter.write(orderItem.getQuantity() + ";" + orderItem.getName() + ";"
+            + total + "$;" + BigDecimal.valueOf(discount).setScale(2,RoundingMode.HALF_EVEN)
+                    + "$;" + BigDecimal.valueOf(total*orderItem.getQuantity()).setScale(2,
+                    RoundingMode.HALF_EVEN) + "$\n");
+        }
 
         // Write discount card information
         csvWriter.write("\nDISCOUNT CARD;DISCOUNT PERCENTAGE\n");
@@ -50,9 +57,12 @@ public class OrderWriter {
         }
 
         // Write total price information
-        csvWriter.write("\nTOTAL PRICE;" + totalPrice.setScale(2, RoundingMode.HALF_EVEN) + "$; TOTAL DISCOUNT;" +
-                (totalPrice.setScale(2, RoundingMode.HALF_EVEN).floatValue() - BigDecimal.valueOf(totalDiscount).setScale(2, RoundingMode.HALF_EVEN).floatValue()) + "$; TOTAL WITH DISCOUNT;" +
-                (totalPrice.min(BigDecimal.valueOf(totalDiscount))).setScale(2, RoundingMode.HALF_EVEN) + "$\n");
+        csvWriter.write("\nTOTAL PRICE;" +  "TOTAL DISCOUNT;" +
+                 "TOTAL WITH DISCOUNT" + "\n");
+        csvWriter.write(totalPrice.setScale(2, RoundingMode.HALF_EVEN) + "$;" +
+                (totalPrice.setScale(2, RoundingMode.HALF_EVEN).floatValue() -
+                        BigDecimal.valueOf(totalDiscount).setScale(2, RoundingMode.HALF_EVEN).floatValue())
+        + "$;" + (totalPrice.min(BigDecimal.valueOf(totalDiscount))).setScale(2, RoundingMode.HALF_EVEN) + "$");
     }
 }
 
@@ -85,6 +95,17 @@ public class OrderWriter {
         } else {
             return discountCardPercentage;
         }
+    }
+
+    private static double calculateTotalWithoutDiscount(OrderItem orderItem,List<Product> products){
+        for (Product product : products) {
+
+                if (product.getId()==orderItem.getProductID()){
+                   return product.getPrice();
+
+            }
+        }
+        return -1;
     }
 
     protected static BigDecimal calculateTotalCostWithDiscounts(List<Product> products,
@@ -137,6 +158,15 @@ public class OrderWriter {
         Order order = new Order.Builder().addItems(orderItems).build();
         return order.getTotalPrice();
     }
+    private static double calculateDiscount(OrderItem orderItem, DiscountCard discountCard) {
+    if (orderItem.getQuantity() >= 5) {
+        return orderItem.getPrice() * 0.1; // 10% discount for wholesale
+    } else if (discountCard != null) {
+        return orderItem.getPrice() * discountCard.getDiscount(); // Discount from card
+    } else {
+        return 0; // No discount
+    }
+}
     //TODO Написать такой-же вывод, но уже в консоль, так-же исправить баг из-за которого не выводятся продукты
 
 //    private static void applyWholesaleDiscounts(Order order) {
