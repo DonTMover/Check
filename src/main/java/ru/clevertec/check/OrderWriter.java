@@ -16,8 +16,7 @@ public class OrderWriter {
     private static final List<OrderItem> orderItems = new ArrayList<>();
 
 
-    public static void checkBalanceAndWriteOrder(BigDecimal totalPrice, DiscountCard discountCard)
-            throws IOException {
+    public static void checkBalanceAndWriteOrder(BigDecimal totalPrice, DiscountCard discountCard) throws IOException {
         // Calculate total discount (assuming logic for calculating discount is implemented elsewhere)
         double totalDiscount = new Order.Builder().addItems(orderItems).build().getTotalDiscount(); // Replace with your discount logic
 
@@ -41,10 +40,8 @@ public class OrderWriter {
             for (OrderItem orderItem : orderItems) {
                 double discount = orderItem.getPrice() * calculateDiscount(orderItem, discountCard);
                 double total = calculateTotalWithoutDiscount(orderItem, CheckRunner.getProducts());
-                csvWriter.write(orderItem.getQuantity() + ";" + orderItem.getName() + ";"
-                        + total + "$;" + BigDecimal.valueOf(discount).setScale(2, RoundingMode.HALF_EVEN)
-                        + "$;" + BigDecimal.valueOf(total * orderItem.getQuantity()).setScale(2,
-                        RoundingMode.HALF_EVEN) + "$\n");
+                csvWriter.write(orderItem.getQuantity() + ";" + orderItem.getName() + ";" + total + "$;" + BigDecimal.valueOf(discount).setScale(2, RoundingMode.HALF_EVEN) + "$;" + BigDecimal.valueOf(total * orderItem.getQuantity()).setScale(2, RoundingMode.HALF_EVEN) + "$\n");
+                //changeTheQuantityInFile(orderItem);
             }
 
             // Write discount card information
@@ -56,13 +53,11 @@ public class OrderWriter {
             }
 
             // Write total price information
-            csvWriter.write("\nTOTAL PRICE;" + "TOTAL DISCOUNT;" +
-                    "TOTAL WITH DISCOUNT" + "\n");
-            csvWriter.write(totalPrice.setScale(2, RoundingMode.HALF_EVEN) + "$;" +
-                    (totalPrice.setScale(2, RoundingMode.HALF_EVEN).floatValue() -
-                            BigDecimal.valueOf(totalDiscount).setScale(2, RoundingMode.HALF_EVEN).floatValue())
-                    + "$;" + (totalPrice.min(BigDecimal.valueOf(totalDiscount))).setScale(2, RoundingMode.HALF_EVEN) + "$");
+            csvWriter.write("\nTOTAL PRICE;" + "TOTAL DISCOUNT;" + "TOTAL WITH DISCOUNT" + "\n");
+            csvWriter.write(totalPrice.setScale(2, RoundingMode.HALF_EVEN) + "$;" + (totalPrice.setScale(2, RoundingMode.HALF_EVEN).floatValue() - BigDecimal.valueOf(totalDiscount).setScale(2, RoundingMode.HALF_EVEN).floatValue()) + "$;" + (totalPrice.min(BigDecimal.valueOf(totalDiscount))).setScale(2, RoundingMode.HALF_EVEN) + "$");
 
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
         printTheOrderInConsole();
     }
@@ -78,10 +73,8 @@ public class OrderWriter {
 
 
     private static double calculateTotalDiscount(List<Product> products, int discountPercentage) {
-        return products.stream()
-                .filter(Product::isWholesaleProduct) // Filter only discounted products
-                .mapToDouble(product -> product.getPrice() * product.getQuantityInStock() * discountPercentage / 100)
-                .sum();
+        return products.stream().filter(Product::isWholesaleProduct) // Filter only discounted products
+                .mapToDouble(product -> product.getPrice() * product.getQuantityInStock() * discountPercentage / 100).sum();
     }
 
     private static double calculateTotalWithDiscount(double totalPrice, double totalDiscount) {
@@ -108,9 +101,7 @@ public class OrderWriter {
         return -1;
     }
 
-    protected static BigDecimal calculateTotalCostWithDiscounts(List<Product> products,
-                                                                Map<Integer, Integer> purchases,
-                                                                String discountCardId) throws Exception {
+    protected static BigDecimal calculateTotalCostWithDiscounts(List<Product> products, Map<Integer, Integer> purchases, String discountCardId) throws Exception {
 
         //List<OrderItem> orderItems = new ArrayList<>();
         for (Map.Entry<Integer, Integer> entry : purchases.entrySet()) {
@@ -118,20 +109,15 @@ public class OrderWriter {
             if (product == null) {
                 throw new IllegalArgumentException("Product not found: ID " + entry.getKey()); // More specific error message
             }
-            orderItems.add(new OrderItem.Builder()
-                    .setQuantity(entry.getValue())  // Use entry.getValue() for quantity
-                    .setPrice(product.getPrice())
-                    .setName(product.getName())
-                    .setProductID(entry.getKey())
-                    .build());
+            orderItems.add(new OrderItem.Builder().setQuantity(entry.getValue())  // Use entry.getValue() for quantity
+                    .setPrice(product.getPrice()).setName(product.getName()).setProductID(entry.getKey()).build());
         }
 
         for (OrderItem orderItem : orderItems) {
             if (orderItem.getQuantity() > 5) {
                 orderItem.applyDiscount(BigDecimal.valueOf(0.1));
             } else if (discountCardId != null) { // Use else if for exclusive discount application
-                BigDecimal discount = BigDecimal.valueOf(DiscountCard.findDiscountById(discountCardId).getDiscount())
-                        .divide(BigDecimal.valueOf(100));
+                BigDecimal discount = BigDecimal.valueOf(DiscountCard.findDiscountById(discountCardId).getDiscount()).divide(BigDecimal.valueOf(100));
                 orderItem.applyDiscount(discount);
             }
         }
@@ -140,17 +126,11 @@ public class OrderWriter {
         return order.getTotalPrice();
     }
 
-    private static BigDecimal calculateTotalCostWithoutDiscounts(HashMap<Integer, Integer> purchases,
-                                                                 List<Product> products) {
+    private static BigDecimal calculateTotalCostWithoutDiscounts(HashMap<Integer, Integer> purchases, List<Product> products) {
         //List<OrderItem> orderItems = new ArrayList<>();
         for (Integer i : purchases.keySet()) {
             if (products.get(i) != null) {
-                orderItems.add(new OrderItem.Builder()
-                        .setQuantity(purchases.get(i))
-                        .setPrice(products.get(i).getPrice())
-                        .setName(products.get(i).getName())
-                        .setProductID(i)
-                        .build());
+                orderItems.add(new OrderItem.Builder().setQuantity(purchases.get(i)).setPrice(products.get(i).getPrice()).setName(products.get(i).getName()).setProductID(i).build());
             } else {
                 throw new IllegalArgumentException("Product not found");
             }
@@ -168,10 +148,11 @@ public class OrderWriter {
             return 0; // No discount
         }
     }
-    private static void printTheOrderInConsole(){
-        try(BufferedReader reader = new BufferedReader(new FileReader(CheckRunner.RESULT_FILE))) {
+
+    private static void printTheOrderInConsole() {
+        try (BufferedReader reader = new BufferedReader(new FileReader(CheckRunner.RESULT_FILE))) {
             String line;
-            while((line = reader.readLine()) != null){
+            while ((line = reader.readLine()) != null) {
                 System.out.println(line);
             }
         } catch (FileNotFoundException e) {
@@ -180,6 +161,45 @@ public class OrderWriter {
             throw new RuntimeException(e);
         }
     }
+//TODO исправиит баг из-за которого метод не работает
+
+//    public static void changeTheQuantityInFile(OrderItem orderItem) throws Exception {
+//        Map<String, Integer> productQuantities = new HashMap<>();
+//        List<String> updatedLines = new ArrayList<>();
+//
+//        // Read product data and store in Map
+//        try (BufferedReader reader = new BufferedReader(new FileReader(CheckRunner.PRODUCTS_FILE))) {
+//            reader.readLine(); // Skip header line
+//            String line;
+//            while ((line = reader.readLine()) != null) {
+//                String[] split = line.split(",");
+//                productQuantities.put(split[1], Integer.parseInt(split[0]));
+//            }
+//        }
+//
+//        // Check stock availability before updating quantity
+//        Integer currentQuantity = productQuantities.get(orderItem.getName());
+//        if (currentQuantity == null || currentQuantity < orderItem.getQuantity()) {
+//            throw new InsufficientStockException("Insufficient stock for product: " + orderItem.getName());
+//        }
+//
+//        // Update quantity if stock is sufficient
+//        int newQuantity = currentQuantity - orderItem.getQuantity();
+//        productQuantities.put(orderItem.getName(), newQuantity);
+//
+//        // Generate updated lines from Map
+//        for (Map.Entry<String, Integer> entry : productQuantities.entrySet()) {
+//            updatedLines.add(entry.getValue() + "," + entry.getKey());
+//        }
+//
+//        // Write updated content to file
+//        try (FileWriter writer = new FileWriter(CheckRunner.PRODUCTS_FILE)) {
+//            for (String line : updatedLines) {
+//                writer.write(line + "\n");
+//            }
+//        }
+//    }
+
 //    private static void applyWholesaleDiscounts(Order order) {
 //        for (OrderItem item : order.getOrderItems()) {
 //            Product product = products.get(item.getProductID());
