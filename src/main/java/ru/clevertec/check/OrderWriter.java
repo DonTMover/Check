@@ -32,7 +32,7 @@ public class OrderWriter {
         // Write headers
         csvWriter.write("Date;Time\n");
         LocalDateTime now = LocalDateTime.now();
-        String date = now.format(DateTimeFormatter.ofPattern("yyyy-DD-MM")); // Use DD-MM format
+        String date = now.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")); // Use DD-MM format
         String time = now.format(DateTimeFormatter.ofPattern("HH:mm:ss"));
         csvWriter.write(date + ";" + time + "\n\n");  // Add an extra empty line for clarity
 
@@ -51,7 +51,7 @@ public class OrderWriter {
 
         // Write total price information
         csvWriter.write("\nTOTAL PRICE;" + totalPrice.setScale(2, RoundingMode.HALF_EVEN) + "$; TOTAL DISCOUNT;" +
-                (totalPrice.setScale(2,RoundingMode.HALF_DOWN).min(BigDecimal.valueOf(totalDiscount).setScale(2, RoundingMode.HALF_EVEN))) + "$; TOTAL WITH DISCOUNT;" +
+                (totalPrice.setScale(2, RoundingMode.HALF_EVEN).floatValue() - BigDecimal.valueOf(totalDiscount).setScale(2, RoundingMode.HALF_EVEN).floatValue()) + "$; TOTAL WITH DISCOUNT;" +
                 (totalPrice.min(BigDecimal.valueOf(totalDiscount))).setScale(2, RoundingMode.HALF_EVEN) + "$\n");
     }
 }
@@ -137,6 +137,7 @@ public class OrderWriter {
         Order order = new Order.Builder().addItems(orderItems).build();
         return order.getTotalPrice();
     }
+    //TODO Написать такой-же вывод, но уже в консоль, так-же исправить баг из-за которого не выводятся продукты
 
 //    private static void applyWholesaleDiscounts(Order order) {
 //        for (OrderItem item : order.getOrderItems()) {
