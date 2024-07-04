@@ -1,5 +1,7 @@
 package ru.clevertec.check;
 
+import ru.clevertec.check.exceptions.InternalServerErrorException;
+
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -95,7 +97,7 @@ public class Order {
     }
 
     public void setOrderItems(List<OrderItem> orderItems) {
-        throw new UnsupportedOperationException("Order items cannot be modified after creation.");
+        throw new InternalServerErrorException("Order items cannot be modified after creation.");
     }
 
     public BigDecimal getTotalPrice() {

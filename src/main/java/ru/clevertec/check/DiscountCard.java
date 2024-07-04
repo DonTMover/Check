@@ -36,7 +36,13 @@ public class DiscountCard {
         }
 
         public Builder setCardNumber(String cardNumber) {
-            this.cardNumber = cardNumber;
+            if (cardNumber!=null) {
+                this.cardNumber = cardNumber;
+            }else{
+                this.cardNumber = null;
+                this.discount = 0;
+                this.id = -1;
+            }
             return this;
         }
 

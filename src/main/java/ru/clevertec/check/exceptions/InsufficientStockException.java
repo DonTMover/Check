@@ -1,4 +1,4 @@
-package ru.clevertec.check;
+package ru.clevertec.check.exceptions;
 
 public class InsufficientStockException extends RuntimeException {
 

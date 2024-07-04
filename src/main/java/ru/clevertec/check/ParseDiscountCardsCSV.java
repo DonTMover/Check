@@ -1,5 +1,7 @@
 package ru.clevertec.check;
 
+import ru.clevertec.check.exceptions.InternalServerErrorException;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -31,8 +33,7 @@ public class ParseDiscountCardsCSV {
                     .setId(id)
                     .build();
         } catch (NumberFormatException e) {
-            System.err.println("Error parsing line: " + line + " - " + e.getMessage());
-            return null;
+            throw new InternalServerErrorException("Error parsing product line " + line + ": " + e.getMessage());
         }
     }
 
