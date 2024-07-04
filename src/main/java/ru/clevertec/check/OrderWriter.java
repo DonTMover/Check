@@ -55,9 +55,21 @@ public class OrderWriter {
                 csvWriter.write("None;0%\n");
             }
 
+
             // Write total price information
-            csvWriter.write("\nTOTAL PRICE;" + "TOTAL DISCOUNT;" + "TOTAL WITH DISCOUNT" + "\n");
-            csvWriter.write(totalPrice.setScale(2, RoundingMode.HALF_EVEN) + "$;" + (totalPrice.setScale(2, RoundingMode.HALF_EVEN).floatValue() - BigDecimal.valueOf(totalDiscount).setScale(2, RoundingMode.HALF_EVEN).floatValue()) + "$;" + (totalPrice.min(BigDecimal.valueOf(totalDiscount))).setScale(2, RoundingMode.HALF_EVEN) + "$");
+            if (discountCard!=null) {
+                csvWriter.write("\nTOTAL PRICE;" + "TOTAL DISCOUNT;" + "TOTAL WITH DISCOUNT" + "\n");
+                csvWriter.write(totalPrice.setScale(2, RoundingMode.HALF_EVEN) + "$;" +
+                        (totalPrice.setScale(2, RoundingMode.HALF_EVEN).floatValue() -
+                                BigDecimal.valueOf(totalDiscount).setScale(2, RoundingMode.HALF_EVEN).floatValue())
+                        + "$;" +
+                        (totalPrice.min(BigDecimal.valueOf(totalDiscount)))
+                                .setScale(2, RoundingMode.HALF_EVEN) + "$");
+            }else{
+                csvWriter.write("\nTOTAL PRICE;" + "TOTAL DISCOUNT;" + "TOTAL WITH DISCOUNT" + "\n");
+                csvWriter.write(totalPrice.setScale(2, RoundingMode.HALF_EVEN) + "$;" +
+                        "0.00" + "$;" + totalPrice.setScale(2, RoundingMode.HALF_EVEN) + "$");
+            }
 
         } catch (Exception e) {
             throw new InternalServerErrorException(e.toString());
