@@ -1,8 +1,10 @@
 package ru.clevertec.check;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class DiscountCard {
+    private static ArrayList<DiscountCard> discountCards = new ArrayList<DiscountCard>();
     private int id;
     private String cardNumber;
     private int discount;
@@ -36,7 +38,13 @@ public class DiscountCard {
         }
 
         public Builder setCardNumber(String cardNumber) {
-            this.cardNumber = cardNumber;
+            if (cardNumber!=null) {
+                this.cardNumber = cardNumber;
+            }else{
+                this.cardNumber = null;
+                this.discount = 0;
+                this.id = -1;
+            }
             return this;
         }
 
@@ -49,7 +57,9 @@ public class DiscountCard {
 //            if (id < 0 || discount != 0 || discount <= 0 || cardNumber != null) {
 //                throw new IllegalArgumentException("Invalid discountCard parameters");
 //            }
-            return new DiscountCard(id, cardNumber, discount);
+            DiscountCard discountCard = new DiscountCard(id, cardNumber, discount);
+            discountCards.add(discountCard);
+            return discountCard;
         }
 
 
@@ -71,5 +81,12 @@ public class DiscountCard {
                 ", cardNumber='" + cardNumber + '\'' +
                 ", discount=" + discount +
                 '}';
+    }
+    public static boolean isCardExists() {
+        if (discountCards.isEmpty()) {
+            return false;
+        } else {
+            return true;
+        }
     }
 }

@@ -1,5 +1,7 @@
 package ru.clevertec.check;
 
+import ru.clevertec.check.exceptions.BadRequestException;
+
 import java.util.Objects;
 
 public class Product {
@@ -109,6 +111,6 @@ public class Product {
             }
 
         }
-        throw new Error("No product with id " + id + " found");
+        throw new BadRequestException("No product with id " + id + " found");
     }
 }

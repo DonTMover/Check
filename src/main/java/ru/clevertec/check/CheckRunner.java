@@ -1,5 +1,7 @@
 package ru.clevertec.check;
 
+import ru.clevertec.check.exceptions.BadRequestException;
+
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
@@ -49,7 +51,11 @@ public class CheckRunner {
             if (arg.startsWith("discountCard=")) {
                 discountCardId = arg.split("=")[1];
             } else if (arg.startsWith("balanceDebitCard=")) {
-                balanceDebitCard = new BigDecimal(arg.split("=")[1]);
+                if (arg!=null) {
+                    balanceDebitCard = new BigDecimal(arg.split("=")[1]);
+                }else{
+                    throw new BadRequestException("Balance Debit Card Not Found");
+                }
             } else {
                 try {
                     String[] parts = arg.split("-");
@@ -57,7 +63,7 @@ public class CheckRunner {
                     int quantity = Integer.parseInt(parts[1]);
                     purchases.put(productId, quantity);
                 } catch (NumberFormatException e) {
-                    System.err.println("Error parsing argument: " + e.getMessage());
+                    throw new BadRequestException("Invalid Product ID");
                 }
             }
         }

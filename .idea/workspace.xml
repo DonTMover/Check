@@ -4,10 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2bc89813-8f4b-43d6-b181-6fdedd25abfe" name="Changes" comment="Работает кое-как!">
+    <list default="true" id="2bc89813-8f4b-43d6-b181-6fdedd25abfe" name="Changes" comment="Исправлен баг из-за которого без скидочной карты чек считался неправильно">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/result.csv" beforeDir="false" afterPath="$PROJECT_DIR$/result.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ru/clevertec/check/OrderWriter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/clevertec/check/OrderWriter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -91,30 +90,30 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_ADD_EXTERNAL_FILES": "true",
-    "Application.CheckRunner.executor": "Debug",
-    "Gradle.Build Check.executor": "Run",
-    "Gradle.Check [:CheckRunner.main()].executor": "Debug",
-    "Gradle.Check [build].executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "git-widget-placeholder": "entry-core",
-    "kotlin-language-version-configured": "true",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "onboarding.tips.debug.path": "C:/Users/DonTMover/IdeaProjects/Check/src/main/java/ru/clevertec/Main.java",
-    "project.structure.last.edited": "Modules",
-    "project.structure.proportion": "0.0",
-    "project.structure.side.proportion": "0.2",
-    "settings.editor.selected.configurable": "project.propCompiler",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
+    &quot;Application.CheckRunner.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.Build Check.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.Check [:CheckRunner.main()].executor&quot;: &quot;Debug&quot;,
+    &quot;Gradle.Check [build].executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;entry-core&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;onboarding.tips.debug.path&quot;: &quot;C:/Users/DonTMover/IdeaProjects/Check/src/main/java/ru/clevertec/Main.java&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RunManager" selected="Application.CheckRunner">
     <configuration name="CheckRunner" type="Application" factoryName="Application" nameIsGenerated="true">
       <option name="ALTERNATIVE_JRE_PATH" value="corretto-21" />
@@ -184,7 +183,9 @@
       <workItem from="1719919772161" duration="4287000" />
       <workItem from="1719924217359" duration="4199000" />
       <workItem from="1719929045381" duration="4659000" />
-      <workItem from="1719934658214" duration="4154000" />
+      <workItem from="1719934658214" duration="4286000" />
+      <workItem from="1720030705616" duration="6765000" />
+      <workItem from="1720172288862" duration="605000" />
     </task>
     <task id="LOCAL-00001" summary="Начал выводить итоговую цену&#10;Добавил класс Скидочных карт&#10;Добавил отдельный класс для их парсинга&#10;и еще парочку фиксов">
       <option name="closed" value="true" />
@@ -266,11 +267,62 @@
       <option name="project" value="LOCAL" />
       <updated>1719941132440</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="Исправлен баг с высчитыванием суммы скидки">
+      <option name="closed" value="true" />
+      <created>1719941758658</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1719941758658</updated>
+    </task>
+    <task id="LOCAL-00012" summary="Добавлен функционал вывода списка покупок в файл и исправлен баг с выводом в файл итоговой цены, скидки и цены со скидкой">
+      <option name="closed" value="true" />
+      <created>1719999587177</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1719999587177</updated>
+    </task>
+    <task id="LOCAL-00013" summary="added InsufficientStockException&#10;дописан нерабочий changeTheQuantityInFile, завтра починю">
+      <option name="closed" value="true" />
+      <created>1720033445894</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1720033445894</updated>
+    </task>
+    <task id="LOCAL-00014" summary="Добавлены исключения и они-же заменили стандартные">
+      <option name="closed" value="true" />
+      <created>1720114116800</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1720114116800</updated>
+    </task>
+    <task id="LOCAL-00015" summary="Исправлен баг из-за которого без скидочной карты чек считался неправильно">
+      <option name="closed" value="true" />
+      <created>1720114747121</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1720114747121</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
@@ -284,7 +336,12 @@
     <MESSAGE value="Парсеры починил" />
     <MESSAGE value="чтото не работает" />
     <MESSAGE value="Работает кое-как!" />
-    <option name="LAST_COMMIT_MESSAGE" value="Работает кое-как!" />
+    <MESSAGE value="Исправлен баг с высчитыванием суммы скидки" />
+    <MESSAGE value="Добавлен функционал вывода списка покупок в файл и исправлен баг с выводом в файл итоговой цены, скидки и цены со скидкой" />
+    <MESSAGE value="added InsufficientStockException&#10;дописан нерабочий changeTheQuantityInFile, завтра починю" />
+    <MESSAGE value="Добавлены исключения и они-же заменили стандартные" />
+    <MESSAGE value="Исправлен баг из-за которого без скидочной карты чек считался неправильно" />
+    <option name="LAST_COMMIT_MESSAGE" value="Исправлен баг из-за которого без скидочной карты чек считался неправильно" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -295,17 +352,12 @@
         </breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/ru/clevertec/check/CheckRunner.java</url>
-          <line>24</line>
+          <line>26</line>
           <option name="timeStamp" value="4" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/ru/clevertec/check/ParseProductsCSV.java</url>
-          <line>43</line>
-          <option name="timeStamp" value="5" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/ru/clevertec/check/ParseProductsCSV.java</url>
-          <line>8</line>
+          <line>10</line>
           <option name="timeStamp" value="7" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
@@ -315,12 +367,22 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/ru/clevertec/check/CheckRunner.java</url>
-          <line>42</line>
+          <line>44</line>
           <option name="timeStamp" value="9" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/ru/clevertec/check/OrderWriter.java</url>
+          <line>72</line>
+          <option name="timeStamp" value="13" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/ru/clevertec/check/OrderWriter.java</url>
+          <line>167</line>
+          <option name="timeStamp" value="14" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/main/java/ru/clevertec/check/OrderWriter.java</url>
-          <line>19</line>
+          <line>22</line>
           <properties class="ru.clevertec.check.OrderWriter" method="checkBalanceAndWriteOrder">
             <option name="EMULATED" value="true" />
             <option name="WATCH_EXIT" value="false" />
@@ -329,5 +391,9 @@
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
   </component>
 </project>

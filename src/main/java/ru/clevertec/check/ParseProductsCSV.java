@@ -1,5 +1,7 @@
 package ru.clevertec.check;
 
+import ru.clevertec.check.exceptions.InternalServerErrorException;
+
 import java.io.*;
 import java.math.BigDecimal;
 import java.util.*;
@@ -34,8 +36,7 @@ public class ParseProductsCSV {
                     .setDiscount(discount)
                     .build();
         } catch (NumberFormatException e) {
-            System.err.println("Error parsing line: " + line + " - " + e.getMessage());
-            return null;
+            throw new InternalServerErrorException("Error parsing line: " + line + " - " + e.getMessage());
         }
     }
 
