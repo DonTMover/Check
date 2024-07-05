@@ -2,6 +2,7 @@ package ru.clevertec.check;
 
 import ru.clevertec.check.exceptions.BadRequestException;
 
+import java.io.IOException;
 import java.util.Objects;
 
 public class Product {
@@ -104,7 +105,7 @@ public class Product {
                 ", discount=" + discount +
                 '}';
     }
-    public static Product getProductByID(int id) {
+    public static Product getProductByID(int id) throws IOException {
         for (Product product : CheckRunner.getProducts()) {
             if (product.getId() == id) {
                 return product;

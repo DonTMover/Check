@@ -2,6 +2,7 @@ package ru.clevertec.check;
 
 import ru.clevertec.check.exceptions.BadRequestException;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
@@ -12,9 +13,9 @@ import static ru.clevertec.check.OrderWriter.checkBalanceAndWriteOrder;
 
 
 public class CheckRunner {
-    protected static final String PRODUCTS_FILE = "./src/main/resources/products.csv";
+    protected static String PRODUCTS_FILE;
     protected static final String DISCOUNT_CARDS_FILE = "./src/main/resources/discountCards.csv";
-    protected static final String RESULT_FILE = "./result.csv";
+    protected static String RESULT_FILE;
 
     private static List<Product> products;
     private static List<DiscountCard> discountCards;
@@ -24,11 +25,15 @@ public class CheckRunner {
 
     public static void main(String[] args) throws Exception {
         // Parse products CSV file
-        products = ParseProductsCSV.parseProductsCSV(PRODUCTS_FILE);
-        discountCards = ParseDiscountCardsCSV.parseDiscountCardsCSV(DISCOUNT_CARDS_FILE);
+
 
         // Process command-line arguments
         parseArguments(args);
+
+        CheckFilePaths.checkFiles(PRODUCTS_FILE,RESULT_FILE);
+
+        products = ParseProductsCSV.parseProductsCSV(PRODUCTS_FILE);
+        discountCards = ParseDiscountCardsCSV.parseDiscountCardsCSV(DISCOUNT_CARDS_FILE);
 
         // Check if purchase data is available
         if (purchases.isEmpty()) {
@@ -45,7 +50,7 @@ public class CheckRunner {
         checkBalanceAndWriteOrder(totalCostWithDiscounts,DiscountCard.findDiscountById(String.valueOf(discountCardId)));
     }
 
-    private static void parseArguments(String[] args) {
+    private static void parseArguments(String[] args) throws IOException {
         purchases = new HashMap<>();
         for (String arg : args) {
             if (arg.startsWith("discountCard=")) {
@@ -56,6 +61,10 @@ public class CheckRunner {
                 }else{
                     throw new BadRequestException("Balance Debit Card Not Found");
                 }
+            } else if (arg.startsWith("pathToFile=")) {
+                PRODUCTS_FILE = arg.split("=")[1];
+            } else if (arg.startsWith("saveToFile=")) {
+                RESULT_FILE = arg.split("=")[1];
             } else {
                 try {
                     String[] parts = arg.split("-");
