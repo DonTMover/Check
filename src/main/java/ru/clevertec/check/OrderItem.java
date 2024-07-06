@@ -1,5 +1,6 @@
 package ru.clevertec.check;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -12,7 +13,7 @@ public class OrderItem {
     private boolean isWhosale;
 
 
-    private OrderItem(int productID, int quantity, double price, String name) {
+    private OrderItem(int productID, int quantity, double price, String name) throws IOException {
         this.productID = productID;
         this.quantity = quantity;
         this.price = price;
@@ -57,7 +58,7 @@ public class OrderItem {
             return this;
         }
 
-        public OrderItem build() {
+        public OrderItem build() throws IOException {
             return new OrderItem(productID, quantity, price, name);
         }
     }

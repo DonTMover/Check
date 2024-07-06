@@ -2,6 +2,7 @@ package ru.clevertec.check;
 
 import ru.clevertec.check.exceptions.BadRequestException;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
@@ -45,7 +46,7 @@ public class CheckRunner {
         checkBalanceAndWriteOrder(totalCostWithDiscounts,DiscountCard.findDiscountById(String.valueOf(discountCardId)));
     }
 
-    private static void parseArguments(String[] args) {
+    private static void parseArguments(String[] args) throws IOException {
         purchases = new HashMap<>();
         for (String arg : args) {
             if (arg.startsWith("discountCard=")) {
@@ -81,5 +82,17 @@ public class CheckRunner {
     }
     public static String getDiscountCardId() {
         return discountCardId;
+    }
+    public static void setBalanceDebitCard(double balanceDebitCard1){
+        balanceDebitCard = BigDecimal.valueOf(balanceDebitCard1);
+    }
+    public static void setDiscountCardId(String DiscounCardId){
+        discountCardId = DiscounCardId;
+    }
+    public static void setProducts(List<Product> products){
+        CheckRunner.products = products;
+    }
+    public static void setDiscountCards(List<DiscountCard> discountCards){
+        CheckRunner.discountCards = discountCards;
     }
 }
