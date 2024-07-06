@@ -1,5 +1,6 @@
 package ru.clevertec.check;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -8,7 +9,7 @@ public class CartCollector {
 
     private static List<Order> orders = new ArrayList<>();
 
-    public static void collectCart(HashMap<Integer, Integer> purchases) {
+    public static void collectCart(HashMap<Integer, Integer> purchases) throws IOException {
         // Check for empty purchase map
         if (purchases.isEmpty()) {
             System.out.println("Error: No purchase data provided.");
