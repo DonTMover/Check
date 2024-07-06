@@ -77,6 +77,8 @@ public class OrderWriter {
         printTheOrderInConsole();
     }
 
+    //TODO убрать useless методы, придумать как менять количество товара на складе, добавить resutls.csv в .gitignore
+
 
 //    private static double calculateTotalPrice(List<Product> products) {
 //        double totalPrice = 0;

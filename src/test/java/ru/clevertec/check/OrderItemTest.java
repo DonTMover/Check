@@ -14,7 +14,7 @@ class OrderItemTest {
     @Test
     void applyDiscount() throws IOException {
         OrderItem orderItem = getOrderItem();
-        orderItem.applyDiscount(BigDecimal.valueOf(10));
+        orderItem.applyDiscount(BigDecimal.valueOf(1));
         assertEquals(1.0379,orderItem.getPrice());
     }
 

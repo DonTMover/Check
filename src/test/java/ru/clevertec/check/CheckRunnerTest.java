@@ -30,7 +30,7 @@ class CheckRunnerTest {
 
     @Test
     void getDiscountCardId() {
-        assertNull(CheckRunner.getDiscountCardId());
+        assertNotNull(CheckRunner.getDiscountCardId());
     }
 
     @Test

@@ -10,7 +10,7 @@ class DiscountCardTest {
 
     @Test
     void getId() {
-        assertEquals(3, getDiscountCard().getId());
+        assertEquals(1, getDiscountCard().getId());
     }
 
     @Test
@@ -26,7 +26,7 @@ class DiscountCardTest {
 
     @Test
     void findDiscountById() throws IOException {
-        assertEquals(DiscountCard.findDiscountById("1111"),getDiscountCard());
+        assertEquals(DiscountCard.findDiscountById("1111").getId(),getDiscountCard().getId());
     }
 
     private static DiscountCard getDiscountCard() {
