@@ -4,6 +4,7 @@ import ru.clevertec.check.exceptions.BadRequestException;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.sql.Connection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -32,24 +33,23 @@ public class CheckRunner {
         // Process command-line arguments
         parseArguments(args);
 
-        CheckFilePaths.checkFiles(RESULT_FILE,USERNAME,PASSWORD,URL);
+        CheckFilePaths.checkFiles(RESULT_FILE, USERNAME, PASSWORD, URL);
 
-        //products = ParseProductsCSV.parseProductsCSV(PRODUCTS_FILE);
-        //discountCards = ParseDiscountCardsCSV.parseDiscountCardsCSV(DISCOUNT_CARDS_FILE);
+        Connection connection = SqlQueries.getConnection(URL, USERNAME, PASSWORD);
+        products = SqlQueries.getProducts(connection);
+        discountCards = SqlQueries.getDiscountCards(connection);
+        connection.close();
 
         // Check if purchase data is available
         if (purchases.isEmpty()) {
             System.err.println("Error: No purchase data found.");
             return;
         }
-//        for (DiscountCard discountCard : discountCards) {
-//            System.out.println(discountCard.toString());
-//        }
         // Calculate total cost with discounts
-        BigDecimal totalCostWithDiscounts = calculateTotalCostWithDiscounts(products, purchases,discountCardId);
+        BigDecimal totalCostWithDiscounts = calculateTotalCostWithDiscounts(products, purchases, discountCardId);
 
         // Check balance and write order to file
-        checkBalanceAndWriteOrder(totalCostWithDiscounts,DiscountCard.findDiscountById(String.valueOf(discountCardId)));
+        checkBalanceAndWriteOrder(totalCostWithDiscounts, DiscountCard.findDiscountById(String.valueOf(discountCardId)));
     }
 
     private static void parseArguments(String[] args) throws IOException {
@@ -58,12 +58,12 @@ public class CheckRunner {
             if (arg.startsWith("discountCard=")) {
                 discountCardId = arg.split("=")[1];
             } else if (arg.startsWith("balanceDebitCard=")) {
-                if (arg!=null) {
+                if (arg != null) {
                     balanceDebitCard = new BigDecimal(arg.split("=")[1]);
-                }else{
+                } else {
                     throw new BadRequestException("Balance Debit Card Not Found");
                 }
-            }  else if (arg.startsWith("saveToFile=")) {
+            } else if (arg.startsWith("saveToFile=")) {
                 RESULT_FILE = arg.split("=")[1];
             } else if (arg.startsWith("datasource.url=")) {
                 URL = arg.split("=")[1];
@@ -91,22 +91,52 @@ public class CheckRunner {
     public static List<Product> getProducts() {
         return products;
     }
+
     public static List<DiscountCard> getDiscountCards() {
         return discountCards;
     }
+
     public static String getDiscountCardId() {
         return discountCardId;
     }
-    public static void setBalanceDebitCard(double balanceDebitCard1){
+
+    public static void setBalanceDebitCard(double balanceDebitCard1) {
         balanceDebitCard = BigDecimal.valueOf(balanceDebitCard1);
     }
-    public static void setDiscountCardId(String DiscounCardId){
+
+    public static void setDiscountCardId(String DiscounCardId) {
         discountCardId = DiscounCardId;
     }
-    public static void setProducts(List<Product> products){
+
+    public static void setProducts(List<Product> products) {
         CheckRunner.products = products;
     }
-    public static void setDiscountCards(List<DiscountCard> discountCards){
+
+    public static void setDiscountCards(List<DiscountCard> discountCards) {
         CheckRunner.discountCards = discountCards;
+    }
+
+    protected static String getURL() {
+        return URL;
+    }
+
+    protected static String getUsername() {
+        return USERNAME;
+    }
+
+    protected static String getPassword() {
+        return PASSWORD;
+    }
+
+    protected static void setURL(String URL) {
+        CheckRunner.URL = URL;
+    }
+
+    protected static void setUsername(String username) {
+        CheckRunner.USERNAME = username;
+    }
+
+    protected static void setPassword(String password) {
+        CheckRunner.PASSWORD = password;
     }
 }
