@@ -91,7 +91,7 @@ public class OrderWriter {
 //
 //    private static double calculateTotalDiscount(List<Product> products, int discountPercentage) {
 //        return products.stream().filter(Product::isWholesaleProduct) // Filter only discounted products
-//                .mapToDouble(product -> product.getPrice() * product.getQuantityInStock() * discountPercentage / 100).sum();
+////                .mapToDouble(product -> product.getPrice() * product.getQuantityInStock() * discountPercentage / 100).sum();
 //    }
 //
 //    private static double calculateTotalWithDiscount(double totalPrice, double totalDiscount) {
