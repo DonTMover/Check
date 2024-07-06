@@ -13,9 +13,12 @@ import static ru.clevertec.check.OrderWriter.checkBalanceAndWriteOrder;
 
 
 public class CheckRunner {
-    protected static String PRODUCTS_FILE;
-    protected static final String DISCOUNT_CARDS_FILE = "./src/main/resources/discountCards.csv";
+    //protected static String PRODUCTS_FILE;
+    //protected static final String DISCOUNT_CARDS_FILE = "./src/main/resources/discountCards.csv";
     protected static String RESULT_FILE;
+    protected static String URL;
+    protected static String USERNAME;
+    protected static String PASSWORD;
 
     private static List<Product> products;
     private static List<DiscountCard> discountCards;
@@ -24,16 +27,15 @@ public class CheckRunner {
     private static BigDecimal balanceDebitCard;
 
     public static void main(String[] args) throws Exception {
-        // Parse products CSV file
 
 
         // Process command-line arguments
         parseArguments(args);
 
-        CheckFilePaths.checkFiles(PRODUCTS_FILE,RESULT_FILE);
+        CheckFilePaths.checkFiles(RESULT_FILE,USERNAME,PASSWORD,URL);
 
-        products = ParseProductsCSV.parseProductsCSV(PRODUCTS_FILE);
-        discountCards = ParseDiscountCardsCSV.parseDiscountCardsCSV(DISCOUNT_CARDS_FILE);
+        //products = ParseProductsCSV.parseProductsCSV(PRODUCTS_FILE);
+        //discountCards = ParseDiscountCardsCSV.parseDiscountCardsCSV(DISCOUNT_CARDS_FILE);
 
         // Check if purchase data is available
         if (purchases.isEmpty()) {
@@ -61,10 +63,14 @@ public class CheckRunner {
                 }else{
                     throw new BadRequestException("Balance Debit Card Not Found");
                 }
-            } else if (arg.startsWith("pathToFile=")) {
-                PRODUCTS_FILE = arg.split("=")[1];
-            } else if (arg.startsWith("saveToFile=")) {
+            }  else if (arg.startsWith("saveToFile=")) {
                 RESULT_FILE = arg.split("=")[1];
+            } else if (arg.startsWith("datasource.url=")) {
+                URL = arg.split("=")[1];
+            } else if (arg.startsWith("datasource.username=")) {
+                USERNAME = arg.split("=")[1];
+            } else if (arg.startsWith("datasource.password=")) {
+                PASSWORD = arg.split("=")[1];
             } else {
                 try {
                     String[] parts = arg.split("-");
