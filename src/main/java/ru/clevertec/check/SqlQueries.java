@@ -30,15 +30,16 @@ public class SqlQueries {
         }
 
     }
-    protected static void closeConnection() {
-        if (connection != null) {
-            try {
-                connection.close();
-            } catch (SQLException e) {
-                throw new InternalServerErrorException(e.toString());
-            }
-        }
-    }
+//    Только понял что бесполезно
+//    protected static void closeConnection() {
+//        if (connection != null) {
+//            try {
+//                connection.close();
+//            } catch (SQLException e) {
+//                throw new InternalServerErrorException(e.toString());
+//            }
+//        }
+//    }
     protected static List<Product> getProducts(Connection connection) throws SQLException {
         if (connection == null) {
             throw new InternalServerErrorException("connection is null");
