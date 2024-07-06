@@ -91,4 +91,16 @@ public class CheckRunner {
     public static String getDiscountCardId() {
         return discountCardId;
     }
+    public static void setBalanceDebitCard(double balanceDebitCard1){
+        balanceDebitCard = BigDecimal.valueOf(balanceDebitCard1);
+    }
+    public static void setDiscountCardId(String DiscounCardId){
+        discountCardId = DiscounCardId;
+    }
+    public static void setProducts(List<Product> products){
+        CheckRunner.products = products;
+    }
+    public static void setDiscountCards(List<DiscountCard> discountCards){
+        CheckRunner.discountCards = discountCards;
+    }
 }

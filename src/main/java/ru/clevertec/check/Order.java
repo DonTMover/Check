@@ -90,6 +90,9 @@ public class Order {
     public String getName() {
         return name;
     }
+    public void setName(String name) {
+        this.name = name;
+    }
 
     public List<OrderItem> getOrderItems() {
         // Return a defensive copy to prevent modification of the internal list
