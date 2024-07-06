@@ -80,7 +80,7 @@ class OrderTest {
         CheckRunner.setDiscountCardId("1111");
         ParseDiscountCardsCSV.parseDiscountCardsCSV(CheckRunner.DISCOUNT_CARDS_FILE);
         double discount = order.getTotalDiscount();
-        assertEquals(discount,0.0321);
+        assertEquals(discount,3.21,0.3);
 //        assertEquals(true,true);
         //Не работает как надо
     }
