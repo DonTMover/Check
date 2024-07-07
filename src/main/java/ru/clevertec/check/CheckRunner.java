@@ -40,10 +40,6 @@ public class CheckRunner {
             System.err.println("Error: No purchase data found.");
             return;
         }
-//        for (DiscountCard discountCard : discountCards) {
-//            System.out.println(discountCard.toString());
-//        }
-        // Calculate total cost with discounts
         BigDecimal totalCostWithDiscounts = calculateTotalCostWithDiscounts(products, purchases,discountCardId);
 
         // Check balance and write order to file
@@ -94,8 +90,8 @@ public class CheckRunner {
     public static void setBalanceDebitCard(double balanceDebitCard1){
         balanceDebitCard = BigDecimal.valueOf(balanceDebitCard1);
     }
-    public static void setDiscountCardId(String DiscounCardId){
-        discountCardId = DiscounCardId;
+    public static void setDiscountCardId(String DiscountCardId){
+        discountCardId = DiscountCardId;
     }
     public static void setProducts(List<Product> products){
         CheckRunner.products = products;

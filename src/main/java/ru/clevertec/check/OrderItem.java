@@ -82,10 +82,6 @@ public class OrderItem {
     public String getName() {
         return name;
     }
-//    public BigDecimal getDiscountPercentage() {
-//        // Return a defensive copy to prevent modification of the internal value
-//        return getDiscountPercentage() == null ? BigDecimal.ZERO : new BigDecimal(getDiscountPercentage().toString());
-//    }
 
     public boolean isWhosale() {
         return isWhosale;

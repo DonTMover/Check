@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class DiscountCard {
-    private static ArrayList<DiscountCard> discountCards = new ArrayList<DiscountCard>();
+    private static ArrayList<DiscountCard> discountCards = new ArrayList<>();
     private int id;
     private String cardNumber;
     private int discount;
@@ -54,9 +54,6 @@ public class DiscountCard {
         }
 
         public DiscountCard build() {
-//            if (id < 0 || discount != 0 || discount <= 0 || cardNumber != null) {
-//                throw new IllegalArgumentException("Invalid discountCard parameters");
-//            }
             DiscountCard discountCard = new DiscountCard(id, cardNumber, discount);
             discountCards.add(discountCard);
             return discountCard;
@@ -81,12 +78,5 @@ public class DiscountCard {
                 ", cardNumber='" + cardNumber + '\'' +
                 ", discount=" + discount +
                 '}';
-    }
-    public static boolean isCardExists() {
-        if (discountCards.isEmpty()) {
-            return false;
-        } else {
-            return true;
-        }
     }
 }
