@@ -3,6 +3,7 @@ package ru.clevertec.check;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
+import java.sql.SQLException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -51,7 +52,11 @@ class ProductTest {
         assertEquals(getProduct(),Product.getProductByID(1));
     }
     private static Product getProduct() throws IOException {
-        CheckRunner.setProducts(ParseProductsCSV.parseProductsCSV(CheckRunner.PRODUCTS_FILE));
+        try {
+            CheckRunner.setProducts(SqlQueries.getProducts(SqlQueries.getConnection(CheckRunner.getURL(),CheckRunner.getUsername(),CheckRunner.getPassword())));
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
         return new Product.Builder()
                 .setDiscount(true)
                 .setId(1)

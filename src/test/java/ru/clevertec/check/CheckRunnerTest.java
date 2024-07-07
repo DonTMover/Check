@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.sql.SQLException;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -53,7 +54,12 @@ class CheckRunnerTest {
 
     @Test
     void setDiscountCards() throws IOException {
-        List<DiscountCard> discountCards = ParseDiscountCardsCSV.parseDiscountCardsCSV(CheckRunner.DISCOUNT_CARDS_FILE);
+        List<DiscountCard> discountCards = null;
+        try {
+            discountCards = SqlQueries.getDiscountCards(SqlQueries.getConnection(CheckRunner.getURL(),CheckRunner.getUsername(),CheckRunner.getPassword()));
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
         CheckRunner.setDiscountCards(discountCards);
         assertNotNull(CheckRunner.getDiscountCardId());
     }

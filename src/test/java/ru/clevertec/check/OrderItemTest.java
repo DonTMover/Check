@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -62,7 +63,11 @@ class OrderItemTest {
         assertEquals(1.07,orderItem.getPrice()); //не может работать правильно из-за того что запуск не из CheckRunner
     }
     private static OrderItem getOrderItem() throws IOException {
-        CheckRunner.setDiscountCards(ParseDiscountCardsCSV.parseDiscountCardsCSV(CheckRunner.DISCOUNT_CARDS_FILE));
+        try {
+            CheckRunner.setDiscountCards(SqlQueries.getDiscountCards(SqlQueries.getConnection(CheckRunner.getURL(),CheckRunner.getUsername(),CheckRunner.getPassword())));
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
         List<Product> products = new ArrayList<>();
         products.add(new Product.Builder()
                 .setName("Milk")

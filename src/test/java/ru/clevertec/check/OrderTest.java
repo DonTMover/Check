@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 import ru.clevertec.check.exceptions.InternalServerErrorException;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -78,7 +79,6 @@ class OrderTest {
     void getTotalDiscount() throws IOException {
         Order order = getOrder();
         CheckRunner.setDiscountCardId("1111");
-        ParseDiscountCardsCSV.parseDiscountCardsCSV(CheckRunner.DISCOUNT_CARDS_FILE);
         double discount = order.getTotalDiscount();
         assertEquals(discount,3.21,0.3);
 //        assertEquals(true,true);
@@ -114,7 +114,11 @@ class OrderTest {
                 .build());
         CheckRunner.setProducts(products);
         CheckRunner.setBalanceDebitCard(100);
-        CheckRunner.setDiscountCards(ParseDiscountCardsCSV.parseDiscountCardsCSV(CheckRunner.DISCOUNT_CARDS_FILE));
+        try {
+            CheckRunner.setDiscountCards(SqlQueries.getDiscountCards(SqlQueries.getConnection(CheckRunner.getURL(),CheckRunner.getUsername(),CheckRunner.getPassword())));
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
         return new Order.Builder()
                 .name("Name")
                 .price(1.07)
