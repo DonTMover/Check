@@ -45,6 +45,12 @@ java -cp src ./src/main/java/ru/clevertec/check/CheckRunner.java id-quantity id-
 Вместе с `pathToFile` так-же добавлен `saveToFile`, если его не указать, будет тоже самое исключение
 * **Нужно указывать относительный путь**
 
+
+
+## Post Scriptum
+* Не совветую пользоватся этим ответвлением из-за [CVE-2024-1597](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2024-1597), у которого Score: 10
+
+
 [//]: # (## Другие случаи)
 
 [//]: # (* Если аргумент `pathToFile` и `saveToFile` не были переданы, ошибка будет в `result.csv`)
