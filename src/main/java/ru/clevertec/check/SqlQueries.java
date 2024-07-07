@@ -74,7 +74,4 @@ public class SqlQueries {
         }
         return discountCards;
     }
-
-
-
 }
