@@ -1,6 +1,7 @@
 package ru.clevertec.check;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class DiscountCard {
@@ -66,10 +67,14 @@ public class DiscountCard {
     }
 
     protected static DiscountCard findDiscountById(String discountCardName) throws IOException {
-        for (DiscountCard discountCard : ParseDiscountCardsCSV.parseDiscountCardsCSV(CheckRunner.DISCOUNT_CARDS_FILE)) {
-            if (discountCard.getCardNumber().equals(discountCardName)) {
-                return discountCard;
+        try {
+            for (DiscountCard discountCard : SqlQueries.getDiscountCards(SqlQueries.getConnection(CheckRunner.getURL(),CheckRunner.getUsername(),CheckRunner.getPassword()))) {
+                if (discountCard.getCardNumber().equals(discountCardName)) {
+                    return discountCard;
+                }
             }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
         return null;
     }

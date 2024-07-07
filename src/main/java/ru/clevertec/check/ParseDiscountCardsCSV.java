@@ -12,13 +12,6 @@ public class ParseDiscountCardsCSV {
     private static DiscountCard parseProductLine(String line) {
         // Split the line by comma
         String[] tokens = line.split(",");
-
-        // Validate data length (should match number of product fields)
-//        if (tokens.length != 4) {
-//            System.err.println("Invalid line format: " + line);
-//            return null;
-//        }
-
         // Parse values
         try {
             int id = Integer.parseInt(tokens[0]);

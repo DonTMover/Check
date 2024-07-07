@@ -10,13 +10,6 @@ public class ParseProductsCSV {
     private static Product parseProductLine(String line) {
         // Split the line by comma
         String[] tokens = line.split(",");
-
-        // Validate data length (should match number of product fields)
-//        if (tokens.length != 6) {
-//            System.err.println("Invalid line format: " + line);
-//            return null;
-//        }
-
         try {
             boolean discount = false;
             int id = Integer.parseInt(tokens[0]);

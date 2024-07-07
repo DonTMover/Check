@@ -10,7 +10,6 @@ import java.math.RoundingMode;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -20,7 +19,7 @@ public class OrderWriter {
     private static final List<OrderItem> orderItems = new ArrayList<>();
 
 
-    public static void checkBalanceAndWriteOrder(BigDecimal totalPrice, DiscountCard discountCard) throws IOException {
+    public static void checkBalanceAndWriteOrder(BigDecimal totalPrice, DiscountCard discountCard) {
         double totalDiscount = new Order.Builder().addItems(orderItems).build().getTotalDiscount();
 
         // Check balance and write order to file
@@ -77,36 +76,6 @@ public class OrderWriter {
         printTheOrderInConsole();
     }
 
-    //TODO убрать useless методы, придумать как менять количество товара на складе, добавить resutls.csv в .gitignore
-
-
-//    private static double calculateTotalPrice(List<Product> products) {
-//        double totalPrice = 0;
-//        for (Product product : products) {
-//            totalPrice += product.getPrice() * product.getQuantityInStock();
-//        }
-//        return totalPrice;
-//    }
-//
-//
-//    private static double calculateTotalDiscount(List<Product> products, int discountPercentage) {
-//        return products.stream().filter(Product::isWholesaleProduct) // Filter only discounted products
-////                .mapToDouble(product -> product.getPrice() * product.getQuantityInStock() * discountPercentage / 100).sum();
-//    }
-//
-//    private static double calculateTotalWithDiscount(double totalPrice, double totalDiscount) {
-//        return totalPrice - totalDiscount;
-//    }
-//
-//    private static double applyWholesaleDiscount(Product product, int quantity, int discountCardPercentage) {
-//        if (product.isWholesaleProduct() && quantity >= 5) {
-//            // Apply 10% wholesale discount before regular discount
-//            return discountCardPercentage + 10;
-//        } else {
-//            return discountCardPercentage;
-//        }
-//    }
-
     private static double calculateTotalWithoutDiscount(OrderItem orderItem, List<Product> products) {
         for (Product product : products) {
 
@@ -143,19 +112,6 @@ public class OrderWriter {
         return order.getTotalPrice();
     }
 
-//    private static BigDecimal calculateTotalCostWithoutDiscounts(HashMap<Integer, Integer> purchases, List<Product> products) {
-//        //List<OrderItem> orderItems = new ArrayList<>();
-//        for (Integer i : purchases.keySet()) {
-//            if (products.get(i) != null) {
-//                orderItems.add(new OrderItem.Builder().setQuantity(purchases.get(i)).setPrice(products.get(i).getPrice()).setName(products.get(i).getName()).setProductID(i).build());
-//            } else {
-//                throw new IllegalArgumentException("Product not found");
-//            }
-//        }
-//        Order order = new Order.Builder().addItems(orderItems).build();
-//        return order.getTotalPrice();
-//    }
-
     private static double calculateDiscount(OrderItem orderItem, DiscountCard discountCard) {
         if (orderItem.getQuantity() >= 5) {
             return orderItem.getPrice() * 0.1; // 10% discount for wholesale
@@ -172,35 +128,10 @@ public class OrderWriter {
             while ((line = reader.readLine()) != null) {
                 System.out.println(line);
             }
-        } catch (FileNotFoundException e) {
-            throw new InternalServerErrorException(e.toString());
         } catch (IOException e) {
             throw new InternalServerErrorException(e.toString());
         }
     }
 
 
-//    public static void changeTheQuantityInFile(OrderItem orderItem) throws Exception {
-//        try(BufferedReader reader = new BufferedReader(new FileReader(CheckRunner.PRODUCTS_FILE));
-//            FileWriter fileWriter = new FileWriter(CheckRunner.PRODUCTS_FILE);
-//        ) {
-//            while (reader.ready()) {
-//                String line = reader.readLine();
-//                String[] parts = line.split(";");
-//                if(parts[1].equals(orderItem.getName())) {
-//                    parts[2] = String.valueOf(Integer.valueOf(parts[2])-orderItem.getQuantity());
-//                }
-//                fileWriter.write(parts[0] + ";" + parts[1] + ";" + parts[2] + ";" + parts[3] + ";" + parts[4] + "\n");
-//            }
-//        }
-//    }
-
-//    private static void applyWholesaleDiscounts(Order order) {
-//        for (OrderItem item : order.getOrderItems()) {
-//            Product product = products.get(item.getProductID());
-//            if (product.isWholesaleProduct() && item.getQuantity() >= 5) {
-//                item.applyDiscount(new BigDecimal(0.1)); // 10% wholesale discount
-//            }
-//        }
-//    }
 }

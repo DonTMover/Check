@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
-import org.postgresql.Driver;
 import ru.clevertec.check.exceptions.BadRequestException;
 import ru.clevertec.check.exceptions.InternalServerErrorException;
 
@@ -30,16 +29,6 @@ public class SqlQueries {
         }
 
     }
-//    Только понял что бесполезно
-//    protected static void closeConnection() {
-//        if (connection != null) {
-//            try {
-//                connection.close();
-//            } catch (SQLException e) {
-//                throw new InternalServerErrorException(e.toString());
-//            }
-//        }
-//    }
     protected static List<Product> getProducts(Connection connection) throws SQLException {
         if (connection == null) {
             throw new InternalServerErrorException("connection is null");

@@ -14,8 +14,6 @@ import static ru.clevertec.check.OrderWriter.checkBalanceAndWriteOrder;
 
 
 public class CheckRunner {
-    //protected static String PRODUCTS_FILE;
-    //protected static final String DISCOUNT_CARDS_FILE = "./src/main/resources/discountCards.csv";
     protected static String RESULT_FILE;
     protected static String URL;
     protected static String USERNAME;
@@ -104,8 +102,8 @@ public class CheckRunner {
         balanceDebitCard = BigDecimal.valueOf(balanceDebitCard1);
     }
 
-    public static void setDiscountCardId(String DiscounCardId) {
-        discountCardId = DiscounCardId;
+    public static void setDiscountCardId(String DiscountCardId) {
+        discountCardId = DiscountCardId;
     }
 
     public static void setProducts(List<Product> products) {

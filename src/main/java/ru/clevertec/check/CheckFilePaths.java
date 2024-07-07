@@ -2,7 +2,6 @@ package ru.clevertec.check;
 
 import ru.clevertec.check.exceptions.BadRequestException;
 
-import java.io.FileWriter;
 import java.io.IOException;
 
 public class CheckFilePaths {

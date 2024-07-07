@@ -12,7 +12,7 @@ public class Order {
     private int quantity;
     private double price;
     private String name;
-    private final List<OrderItem> orderItems; // Use final to prevent modification
+    private final List<OrderItem> orderItems;
 
     private Order(int productID, int quantity, double price, String name, List<OrderItem> orderItems) {
         this.productID = productID;
