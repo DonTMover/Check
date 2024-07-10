@@ -74,9 +74,8 @@ public class SqlQueries {
 
         // Use PreparedStatement with placeholders for security and efficiency
         String sql = "UPDATE product SET quantity_in_stock = ? WHERE id = ?";
-        PreparedStatement ps = connection.prepareStatement(sql);
 
-        try {
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
 
             int productId = product.getId();
             ps.setInt(1, quantityInStock);  // Set new quantity
@@ -87,9 +86,6 @@ public class SqlQueries {
             // Execute all updates in the batch
             ps.executeBatch();
             return true;
-        } finally {
-            // Close PreparedStatement to release resources
-            ps.close();
         }
     }
 
