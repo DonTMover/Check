@@ -63,4 +63,34 @@ public class SqlQueries {
         }
         return discountCards;
     }
+    //Попытка добавить CRUD
+    protected static boolean setNewProductsQuantityInStock(Connection connection, int quantityInStock, List<Product> products) throws SQLException {
+    if (connection == null) {
+        throw new InternalServerErrorException("connection is null");
+    }
+    if (products.size() == 0) {
+        return false;
+    }
+
+    // Use PreparedStatement with placeholders for security and efficiency
+    String sql = "UPDATE product SET quantity = ? WHERE id = ?";
+    PreparedStatement ps = connection.prepareStatement(sql);
+
+    try {
+        for (Product product : products) {
+            int productId = product.getId();
+            ps.setInt(1, quantityInStock);  // Set new quantity
+            ps.setInt(2, productId);        // Set product ID
+            ps.addBatch(); // Add update statement to a batch for efficiency
+        }
+
+        // Execute all updates in the batch
+        ps.executeBatch();
+        return true;
+    } finally {
+        // Close PreparedStatement to release resources
+        ps.close();
+    }
+}
+
 }

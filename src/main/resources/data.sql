@@ -20,7 +20,7 @@ create table discount_card
 );
 
 alter table discount_card
-    owner to postgres;
+    owner to casaos;
 
 -- DML
 select * from discount_card;
