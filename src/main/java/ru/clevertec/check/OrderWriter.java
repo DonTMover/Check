@@ -132,6 +132,9 @@ public class OrderWriter {
             throw new InternalServerErrorException(e.toString());
         }
     }
+    protected static List<OrderItem> getOrderItems(){
+        return orderItems;
+    }
 
 
 }

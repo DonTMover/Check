@@ -67,7 +67,7 @@ public class SqlQueries {
     }
 
     //Попытка добавить CRUD
-    protected static boolean setNewProductsQuantityInStock(Connection connection, int quantityInStock, Product product) throws SQLException {
+    protected static void setNewProductsQuantityInStock(Connection connection, int quantityInStock, Product product) throws SQLException {
         if (connection == null) {
             throw new InternalServerErrorException("connection is null");
         }
@@ -76,16 +76,20 @@ public class SqlQueries {
         String sql = "UPDATE product SET quantity_in_stock = ? WHERE id = ?";
 
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
-
+            int quantity_in_stock = 0;
             int productId = product.getId();
-            ps.setInt(1, quantityInStock);  // Set new quantity
+            for (Product product1 : getProducts(connection)) {
+                if(productId == product1.getId()) {
+                    quantity_in_stock = product1.getQuantityInStock()-quantityInStock;
+                }
+            }
+            ps.setInt(1, quantity_in_stock);  // Set new quantity
             ps.setInt(2, productId);        // Set product ID
             ps.addBatch(); // Add update statement to a batch for efficiency
 
 
             // Execute all updates in the batch
             ps.executeBatch();
-            return true;
         }
     }
 

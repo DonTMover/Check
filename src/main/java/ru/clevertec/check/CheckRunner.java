@@ -48,6 +48,19 @@ public class CheckRunner {
 
         // Check balance and write order to file
         checkBalanceAndWriteOrder(totalCostWithDiscounts, DiscountCard.findDiscountById(String.valueOf(discountCardId)));
+
+        for (OrderItem orderItem : OrderWriter.getOrderItems()) {
+            int id = orderItem.getProductID();
+            Product productt = null;
+            for (Product product : products) {
+                if(orderItem.getProductID() == product.getId()){
+                    productt = product;
+                }
+            }
+            SqlQueries.setNewProductsQuantityInStock(connection,orderItem.getQuantity(),productt);
+        }
+
+
     }
 
     private static void parseArguments(String[] args) throws IOException {
