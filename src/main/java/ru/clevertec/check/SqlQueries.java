@@ -29,6 +29,7 @@ public class SqlQueries {
         }
 
     }
+
     protected static List<Product> getProducts(Connection connection) throws SQLException {
         if (connection == null) {
             throw new InternalServerErrorException("connection is null");
@@ -47,6 +48,7 @@ public class SqlQueries {
         }
         return products;
     }
+
     protected static List<DiscountCard> getDiscountCards(Connection connection) throws SQLException {
         if (connection == null) {
             throw new InternalServerErrorException("connection is null");
@@ -63,34 +65,32 @@ public class SqlQueries {
         }
         return discountCards;
     }
+
     //Попытка добавить CRUD
-    protected static boolean setNewProductsQuantityInStock(Connection connection, int quantityInStock, List<Product> products) throws SQLException {
-    if (connection == null) {
-        throw new InternalServerErrorException("connection is null");
-    }
-    if (products.size() == 0) {
-        return false;
-    }
+    protected static boolean setNewProductsQuantityInStock(Connection connection, int quantityInStock, Product product) throws SQLException {
+        if (connection == null) {
+            throw new InternalServerErrorException("connection is null");
+        }
 
-    // Use PreparedStatement with placeholders for security and efficiency
-    String sql = "UPDATE product SET quantity = ? WHERE id = ?";
-    PreparedStatement ps = connection.prepareStatement(sql);
+        // Use PreparedStatement with placeholders for security and efficiency
+        String sql = "UPDATE product SET quantity = ? WHERE id = ?";
+        PreparedStatement ps = connection.prepareStatement(sql);
 
-    try {
-        for (Product product : products) {
+        try {
+
             int productId = product.getId();
             ps.setInt(1, quantityInStock);  // Set new quantity
             ps.setInt(2, productId);        // Set product ID
             ps.addBatch(); // Add update statement to a batch for efficiency
-        }
 
-        // Execute all updates in the batch
-        ps.executeBatch();
-        return true;
-    } finally {
-        // Close PreparedStatement to release resources
-        ps.close();
+
+            // Execute all updates in the batch
+            ps.executeBatch();
+            return true;
+        } finally {
+            // Close PreparedStatement to release resources
+            ps.close();
+        }
     }
-}
 
 }
