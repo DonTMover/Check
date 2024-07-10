@@ -73,7 +73,7 @@ public class SqlQueries {
         }
 
         // Use PreparedStatement with placeholders for security and efficiency
-        String sql = "UPDATE product SET quantity = ? WHERE id = ?";
+        String sql = "UPDATE product SET quantity_in_stock = ? WHERE id = ?";
         PreparedStatement ps = connection.prepareStatement(sql);
 
         try {
